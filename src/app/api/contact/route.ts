@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
 
 export async function POST(req: Request) {
   try {
@@ -13,44 +14,45 @@ export async function POST(req: Request) {
       );
     }
 
-    const BREVO_API_KEY = process.env.BREVO_API_KEY;
+    const SMTP_PASSWORD = process.env.BREVO_API_KEY;
+    const SMTP_USER = process.env.SMTP_USER;
 
-    if (!BREVO_API_KEY) {
-      console.warn("BREVO_API_KEY is missing. Emails will not be sent.");
+    if (!SMTP_PASSWORD || !SMTP_USER) {
+      console.warn("SMTP_PASSWORD or SMTP_USER is missing. Emails will not be sent.");
       return NextResponse.json(
         { error: 'Email service is not configured properly.' },
         { status: 500 }
       );
     }
 
-    const sendBrevoEmail = async (payload: any) => {
-      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'api-key': BREVO_API_KEY,
-        },
-        body: JSON.stringify(payload),
-      });
+    const transporter = nodemailer.createTransport({
+      host: 'smtp-relay.brevo.com',
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: SMTP_USER,
+        pass: SMTP_PASSWORD,
+      },
+    });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Brevo API Error:', errorData);
-        throw new Error('Failed to send email via Brevo');
+    const sendEmail = async (payload: nodemailer.SendMailOptions) => {
+      try {
+        await transporter.sendMail(payload);
+      } catch (error) {
+        console.error('Nodemailer Error:', error);
+        throw new Error('Failed to send email via SMTP');
       }
-      return response.json();
     };
 
     // Email to Admin (info@nirmataai.site)
     // We send from the verified admin email to avoid Brevo rejecting unverified sender domains, 
     // but set the replyTo to the client's email so you can reply directly to them.
     const adminPayload = {
-      sender: { name: "Contact Form", email: 'info@nirmataai.site' },
-      replyTo: { email: email, name: name },
-      to: [{ email: 'info@nirmataai.site', name: 'NirmataAI Admin' }],
+      from: '"Contact Form" <info@nirmataai.site>',
+      replyTo: `${name} <${email}>`,
+      to: 'info@nirmataai.site',
       subject: `New Lead: ${name} - ${service || 'General Inquiry'}`,
-      htmlContent: `
+      html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9fafb; padding: 40px 20px; border-radius: 12px;">
           <div style="background-color: #ffffff; padding: 32px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); border-top: 4px solid #2563eb;">
             <h2 style="color: #111827; margin-top: 0; font-size: 24px; font-weight: 600;">New Contact Submission</h2>
@@ -92,10 +94,10 @@ export async function POST(req: Request) {
 
     // Auto-reply to Client
     const clientPayload = {
-      sender: { name: 'NirmataAI Tech Solutions', email: 'info@nirmataai.site' },
-      to: [{ email: email, name: name }],
+      from: '"NirmataAI Tech Solutions" <info@nirmataai.site>',
+      to: email,
       subject: 'Thank you for contacting NirmataAI Tech Solutions',
-      htmlContent: `
+      html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9fafb; padding: 40px 20px; border-radius: 12px;">
           <div style="background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border-top: 4px solid #2563eb; text-align: center;">
             <img src="https://nirmataai.site/logo.png" alt="NirmataAI Logo" style="height: 48px; margin-bottom: 24px;" />
@@ -140,8 +142,8 @@ export async function POST(req: Request) {
 
     // Send emails concurrently
     await Promise.all([
-      sendBrevoEmail(adminPayload),
-      sendBrevoEmail(clientPayload)
+      sendEmail(adminPayload),
+      sendEmail(clientPayload)
     ]);
 
     return NextResponse.json({ success: true, message: 'Emails sent successfully' }, { status: 200 });
