@@ -1,0 +1,137 @@
+src/components/sections/Hero.tsx(48,13): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any>; transitionEnd?: ResolvedValues$1; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any>'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing'.
+src/components/sections/Hero.tsx(59,13): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any>; transitionEnd?: ResolvedValues$1; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any>'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing'.
+src/components/sections/Hero.tsx(67,13): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any>; transitionEnd?: ResolvedValues$1; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any>'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing'.
+src/components/sections/Hero.tsx(73,13): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any>; transitionEnd?: ResolvedValues$1; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any>'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing'.
+src/data/testimonials.ts(14,5): error TS2353: Object literal may only specify known properties, and 'avatar' does not exist in type 'Testimonial'.
+src/data/testimonials.ts(22,5): error TS2353: Object literal may only specify known properties, and 'avatar' does not exist in type 'Testimonial'.
+src/data/testimonials.ts(30,5): error TS2353: Object literal may only specify known properties, and 'avatar' does not exist in type 'Testimonial'.
+tests/setup.ts(1,8): error TS2882: Cannot find module or type declarations for side-effect import of '@testing-library/jest-dom/vitest'.
+tests/setup.ts(3,25): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/cards/BlogCard.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/cards/BlogCard.test.tsx(25,54): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/BlogCard.test.tsx(32,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/BlogCard.test.tsx(37,49): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/BlogCard.test.tsx(42,45): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/BlogCard.test.tsx(54,46): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/ProjectCard.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/cards/ProjectCard.test.tsx(20,46): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/ProjectCard.test.tsx(25,49): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/ProjectCard.test.tsx(32,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/ProjectCard.test.tsx(38,18): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/ProjectCard.test.tsx(39,18): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/cards/ServiceCard.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/cards/ServiceCard.test.tsx(21,46): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/ServiceCard.test.tsx(28,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/ServiceCard.test.tsx(34,18): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/ServiceCard.test.tsx(35,18): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/cards/TestimonialCard.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/cards/TestimonialCard.test.tsx(19,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/TestimonialCard.test.tsx(24,42): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/TestimonialCard.test.tsx(29,48): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/TestimonialCard.test.tsx(36,51): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/cards/TestimonialCard.test.tsx(43,51): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Container.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/layout/Container.test.tsx(15,41): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Container.test.tsx(55,18): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<HTMLElement>'.
+tests/unit/layout/Footer.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/layout/Footer.test.tsx(10,45): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Footer.test.tsx(17,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Footer.test.tsx(19,24): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Footer.test.tsx(20,24): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Footer.test.tsx(21,24): error TS2339: Property 'toBeRequired' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Footer.test.tsx(28,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Footer.test.tsx(36,23): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Footer.test.tsx(46,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Footer.test.tsx(75,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Header.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/layout/Header.test.tsx(9,40): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Header.test.tsx(14,66): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Header.test.tsx(21,22): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Header.test.tsx(22,22): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Header.test.tsx(29,17): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Header.test.tsx(30,17): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Header.test.tsx(37,11): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Header.test.tsx(43,20): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Header.test.tsx(44,20): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Header.test.tsx(45,20): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/layout/Header.test.tsx(53,22): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/sections/AISolutionsTeaser.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/sections/AISolutionsTeaser.test.tsx(10,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/AISolutionsTeaser.test.tsx(15,45): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/AISolutionsTeaser.test.tsx(16,47): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/AISolutionsTeaser.test.tsx(17,50): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/AISolutionsTeaser.test.tsx(23,21): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/AISolutionsTeaser.test.tsx(24,21): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/sections/Hero.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/sections/Hero.test.tsx(8,59): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/Hero.test.tsx(15,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/Hero.test.tsx(22,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/Hero.test.tsx(28,17): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/Hero.test.tsx(29,17): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/sections/Hero.test.tsx(35,21): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/Hero.test.tsx(36,21): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/sections/PortfolioShowcase.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/sections/PortfolioShowcase.test.tsx(10,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/PortfolioShowcase.test.tsx(15,56): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/PortfolioShowcase.test.tsx(16,56): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/PortfolioShowcase.test.tsx(17,57): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/PortfolioShowcase.test.tsx(23,21): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/PortfolioShowcase.test.tsx(24,21): error TS2339: Property 'toHaveAttribute' does not exist on type 'Assertion<any>'.
+tests/unit/sections/ServicesGrid.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/sections/ServicesGrid.test.tsx(10,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/ServicesGrid.test.tsx(15,49): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/ServicesGrid.test.tsx(16,46): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/ServicesGrid.test.tsx(17,49): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/ServicesGrid.test.tsx(18,48): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/ServicesGrid.test.tsx(19,46): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/ServicesGrid.test.tsx(20,52): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/WhyChooseUs.test.tsx(2,32): error TS2307: Cannot find module '@testing-library/react' or its corresponding type declarations.
+tests/unit/sections/WhyChooseUs.test.tsx(10,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/WhyChooseUs.test.tsx(15,50): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/WhyChooseUs.test.tsx(16,52): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/WhyChooseUs.test.tsx(17,54): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/WhyChooseUs.test.tsx(18,48): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/WhyChooseUs.test.tsx(25,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/WhyChooseUs.test.tsx(28,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/WhyChooseUs.test.tsx(31,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
+tests/unit/sections/WhyChooseUs.test.tsx(34,7): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<any>'.
