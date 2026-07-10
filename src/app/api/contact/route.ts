@@ -14,43 +14,83 @@ export async function POST(req: Request) {
       );
     }
 
-    const SMTP_PASSWORD = process.env.SMTP_PASSWORD;
+    const SMTP_HOST = process.env.SMTP_HOST || 'smtp-relay.brevo.com';
+    const SMTP_PORT = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT) : 587;
     const SMTP_USER = process.env.SMTP_USER;
+    const SMTP_PASS = process.env.SMTP_PASS;
+    const SMTP_FROM = process.env.SMTP_FROM || 'info@nirmataai.site';
+    const BREVO_API_KEY = process.env.BREVO_API_KEY;
 
-    if (!SMTP_PASSWORD || !SMTP_USER) {
-      console.warn("SMTP_PASSWORD or SMTP_USER is missing. Emails will not be sent.");
+    if ((!SMTP_PASS || !SMTP_USER) && !BREVO_API_KEY) {
+      console.warn("Neither SMTP nor BREVO_API_KEY is configured. Emails will not be sent.");
       return NextResponse.json(
         { error: 'Email service is not configured properly.' },
         { status: 500 }
       );
     }
 
-    const transporter = nodemailer.createTransport({
-      host: 'smtp-relay.brevo.com',
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: SMTP_USER,
-        pass: SMTP_PASSWORD,
-      },
-    });
-
     const sendEmail = async (payload: nodemailer.SendMailOptions) => {
-      try {
-        await transporter.sendMail(payload);
-      } catch (error) {
-        console.error('Nodemailer Error:', error);
-        throw new Error('Failed to send email via SMTP');
+      // 1. Try SMTP first if configured
+      if (SMTP_USER && SMTP_PASS) {
+        try {
+          const transporter = nodemailer.createTransport({
+            host: SMTP_HOST,
+            port: SMTP_PORT,
+            secure: SMTP_PORT === 465, // true for 465, false for other ports
+            auth: {
+              user: SMTP_USER,
+              pass: SMTP_PASS,
+            },
+          });
+          await transporter.sendMail(payload);
+          return; // Success via SMTP
+        } catch (error) {
+          console.warn('SMTP Error, falling back to REST API if available:', error);
+        }
       }
+
+      // 2. Fallback to Brevo REST API if configured
+      if (BREVO_API_KEY) {
+        try {
+          const apiPayload = {
+            sender: { name: payload.from?.toString().split('<')[0].replace(/"/g, '').trim() || 'Contact Form', email: SMTP_FROM },
+            replyTo: payload.replyTo ? { email: payload.replyTo.toString().split('<')[1].replace('>', ''), name: payload.replyTo.toString().split('<')[0].trim() } : undefined,
+            to: [{ email: payload.to?.toString() || SMTP_FROM, name: payload.to?.toString() || 'Admin' }],
+            subject: payload.subject,
+            htmlContent: payload.html,
+          };
+
+          const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'api-key': BREVO_API_KEY,
+            },
+            body: JSON.stringify(apiPayload),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Brevo API Error: ${JSON.stringify(errorData)}`);
+          }
+          return; // Success via API
+        } catch (error) {
+          console.error('REST API Error:', error);
+          throw new Error('Failed to send email via both SMTP and REST API');
+        }
+      }
+
+      throw new Error('Failed to send email');
     };
 
     // Email to Admin (info@nirmataai.site)
     // We send from the verified admin email to avoid Brevo rejecting unverified sender domains, 
     // but set the replyTo to the client's email so you can reply directly to them.
     const adminPayload = {
-      from: '"Contact Form" <info@nirmataai.site>',
+      from: `"Contact Form" <${SMTP_FROM}>`,
       replyTo: `${name} <${email}>`,
-      to: 'info@nirmataai.site',
+      to: SMTP_FROM,
       subject: `New Lead: ${name} - ${service || 'General Inquiry'}`,
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9fafb; padding: 40px 20px; border-radius: 12px;">
@@ -94,7 +134,7 @@ export async function POST(req: Request) {
 
     // Auto-reply to Client
     const clientPayload = {
-      from: '"NirmataAI Tech Solutions" <info@nirmataai.site>',
+      from: `"NirmataAI Tech Solutions" <${SMTP_FROM}>`,
       to: email,
       subject: 'Thank you for contacting NirmataAI Tech Solutions',
       html: `
