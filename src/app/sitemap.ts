@@ -11,7 +11,12 @@ const TOP_LEVEL_ROUTES = [
   "/blog",
   "/careers",
   "/contact",
-  "/appointment",
+  "/industries",
+  "/pricing",
+  "/faqs",
+  "/case-studies",
+  "/privacy-policy",
+  "/terms-and-conditions",
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

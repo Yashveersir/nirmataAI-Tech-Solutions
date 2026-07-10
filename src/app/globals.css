@@ -1,26 +1,97 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @theme {
-  --color-background: oklch(1 0 0);
-  --color-foreground: oklch(0.145 0 0);
-  --color-card: oklch(1 0 0);
-  --color-card-foreground: oklch(0.145 0 0);
-  --color-primary: oklch(0.205 0 0);
-  --color-primary-foreground: oklch(0.985 0 0);
-  --color-secondary: oklch(0.97 0 0);
-  --color-secondary-foreground: oklch(0.205 0 0);
-  --color-muted: oklch(0.97 0 0);
-  --color-muted-foreground: oklch(0.556 0 0);
-  --color-accent: oklch(0.97 0 0);
-  --color-accent-foreground: oklch(0.205 0 0);
+  --color-background: oklch(0.08 0.015 250);
+  --color-foreground: oklch(0.98 0.005 250);
+  
+  --color-card: oklch(0.11 0.02 250);
+  --color-card-foreground: oklch(0.98 0.005 250);
+  
+  --color-popover: oklch(0.11 0.02 250);
+  --color-popover-foreground: oklch(0.98 0.005 250);
+  
+  --color-primary: oklch(0.65 0.22 210);
+  --color-primary-foreground: oklch(0.05 0.005 250);
+  
+  --color-secondary: oklch(0.15 0.025 250);
+  --color-secondary-foreground: oklch(0.98 0.005 250);
+  
+  --color-muted: oklch(0.14 0.02 250);
+  --color-muted-foreground: oklch(0.72 0.02 250);
+  
+  --color-accent: oklch(0.62 0.22 285);
+  --color-accent-foreground: oklch(0.98 0.005 250);
+  
   --color-destructive: oklch(0.577 0.245 27.325);
-  --color-border: oklch(0.922 0 0);
-  --color-input: oklch(0.922 0 0);
-  --color-ring: oklch(0.708 0 0);
+  --color-border: oklch(0.18 0.03 250);
+  --color-input: oklch(0.15 0.025 250);
+  --color-ring: oklch(0.65 0.22 210);
 
-  --font-sans:
-    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui;
+}
+
+/* Custom visual utilities for high-tech look */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, oklch(0.98 0.005 250 / 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.98 0.005 250 / 0.03) 1px, transparent 1px);
+}
+
+.bg-dot-grid {
+  background-size: 24px 24px;
+  background-image: radial-gradient(circle, oklch(0.98 0.005 250 / 0.06) 1px, transparent 1px);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 15px oklch(0.65 0.22 210 / 0.4);
+}
+
+.text-glow-purple {
+  text-shadow: 0 0 15px oklch(0.62 0.22 285 / 0.4);
+}
+
+.glow-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glow-card-hover:hover {
+  border-color: oklch(0.65 0.22 210 / 0.4);
+  box-shadow: 0 0 25px 0 oklch(0.65 0.22 210 / 0.08);
+  transform: translateY(-2px);
+}
+
+.glow-accent-hover:hover {
+  border-color: oklch(0.62 0.22 285 / 0.4);
+  box-shadow: 0 0 25px 0 oklch(0.62 0.22 285 / 0.08);
+  transform: translateY(-2px);
+}
+
+/* Keyframes for Radix accordion open/close transitions. */
+@theme {
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 /* Base resets tuned for Tailwind v4 CSS-first config. */

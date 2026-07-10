@@ -1,8 +1,21 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { Inter, Outfit } from "next/font/google";
 import { createMetadata, siteConfig } from "@/lib/metadata";
 import { JsonLd } from "@/components/JsonLd";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
 
 export const metadata: Metadata = createMetadata({
   title: undefined,
@@ -54,7 +67,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <body>
         <a href="#main" className="skip-link">
           Skip to content
