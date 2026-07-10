@@ -14,7 +14,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const SMTP_PASSWORD = process.env.BREVO_API_KEY;
+    const SMTP_PASSWORD = process.env.SMTP_PASSWORD;
     const SMTP_USER = process.env.SMTP_USER;
 
     if (!SMTP_PASSWORD || !SMTP_USER) {
