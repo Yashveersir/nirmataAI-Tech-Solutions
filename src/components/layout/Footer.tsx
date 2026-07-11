@@ -54,31 +54,34 @@ export function Footer({ groups, legalLinks, className }: FooterProps) {
             </p>
             <form
               onSubmit={handleSubmit}
-              aria-label="Newsletter signup"
+              aria-label="Lead magnet signup"
               className="mt-6"
             >
-              <label htmlFor="footer-newsletter" className="text-sm font-medium">
-                Subscribe to our newsletter
+              <label htmlFor="footer-lead-magnet" className="text-sm font-medium text-foreground">
+                Get our 2026 AI Readiness Checklist
               </label>
-              <div className="mt-2 flex gap-2">
+              <p className="text-xs text-muted-foreground mt-1 mb-3">
+                Learn exactly how to prepare your enterprise data for custom AI integration.
+              </p>
+              <div className="flex gap-2">
                 <Input
-                  id="footer-newsletter"
+                  id="footer-lead-magnet"
                   type="email"
                   required
-                  placeholder="you@example.com"
+                  placeholder="you@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  aria-label="Email address"
-                  className="flex-1"
+                  aria-label="Work Email address"
+                  className="flex-1 border-border/80 bg-background/50 focus:bg-background transition-colors"
                 />
-                <Button type="submit" size="icon" aria-label="Subscribe">
-                  <Send className="size-4" aria-hidden="true" />
+                <Button type="submit" size="default" aria-label="Download PDF">
+                  Download
                 </Button>
               </div>
               {status === "success" ? (
-                <p role="status" className="text-foreground mt-2 text-xs">
-                  Thanks — we&apos;ll be in touch.
-                </p>
+                <div role="status" className="mt-3 rounded-md bg-primary/10 px-3 py-2 text-xs font-medium text-primary border border-primary/20">
+                  Thanks! Check your inbox for the download link.
+                </div>
               ) : null}
             </form>
           </div>

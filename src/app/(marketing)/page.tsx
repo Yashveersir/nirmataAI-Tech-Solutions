@@ -18,6 +18,14 @@ export const metadata = createMetadata({
   title: undefined,
   description:
     "NirmataAI Tech Solution builds AI-powered software, modern web platforms, and digital experiences for ambitious teams. AI-first engineering, design, and cloud services.",
+  keywords: [
+    "AI software development agency",
+    "custom software development Kolkata",
+    "enterprise AI integration",
+    "cloud devops services",
+    "B2B web development",
+    "AI consultancy services",
+  ],
   path: "/",
 });
 

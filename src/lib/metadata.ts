@@ -9,6 +9,7 @@ const DEFAULT_DESCRIPTION =
 export interface CreateMetadataInput {
   title?: string;
   description?: string;
+  keywords?: string | string[];
   path?: string;
   image?: string;
   type?: "website" | "article";
@@ -24,6 +25,7 @@ const DEFAULT_OG_IMAGE = "/og-default.png";
  *
  * @param options.title       Page title (will be appended to site name).
  * @param options.description Page description.
+ * @param options.keywords    SEO keywords for the page.
  * @param options.path        Path relative to site root, e.g. "/about".
  * @param options.image       Absolute URL or path to a social share image.
  * @param options.type        Open Graph type, defaults to "website".
@@ -31,6 +33,7 @@ const DEFAULT_OG_IMAGE = "/og-default.png";
 export function createMetadata({
   title,
   description,
+  keywords,
   path = "/",
   image,
   type = "website",
@@ -52,6 +55,7 @@ export function createMetadata({
   return {
     title: resolvedTitle,
     description: resolvedDescription,
+    ...(keywords ? { keywords } : {}),
     metadataBase: new URL(DEFAULT_SITE_URL),
     alternates: {
       canonical: url,
