@@ -14,6 +14,7 @@ export function PortfolioShowcase() {
         <AnimatedSection>
           <SectionHeader
             centered
+            eyebrow="Portfolio"
             title="Featured Work"
             subtitle="A selection of projects that show how we turn complex problems into elegant, scalable products."
           />

@@ -20,7 +20,19 @@ export const metadata = createMetadata({
 /** Extract unique categories from blog data */
 const categories = Array.from(new Set(blogPosts.map((p) => p.category)));
 
-export default function BlogPage() {
+interface BlogPageProps {
+  searchParams: Promise<{ category?: string }>;
+}
+
+export default async function BlogPage(props: BlogPageProps) {
+  const searchParams = await props.searchParams;
+  const selectedCategory = searchParams?.category || "All";
+
+  const filteredPosts =
+    selectedCategory === "All"
+      ? blogPosts
+      : blogPosts.filter((post) => post.category === selectedCategory);
+
   return (
     <>
       <Section spacing="lg">
@@ -35,7 +47,7 @@ export default function BlogPage() {
         </Container>
       </Section>
 
-      {/* Categories Filter (visual only in Phase 1) */}
+      {/* Categories Filter */}
       <Section tone="muted" spacing="sm">
         <Container>
           <AnimatedSection>
@@ -44,13 +56,23 @@ export default function BlogPage() {
               <span className="text-muted-foreground mr-2 text-sm font-medium">
                 Categories:
               </span>
-              <Badge variant="default" className="cursor-default">
-                All
-              </Badge>
-              {categories.map((category) => (
-                <Badge key={category} variant="secondary" className="cursor-default">
-                  {category}
+              <Link href="/blog" scroll={false}>
+                <Badge 
+                  variant={selectedCategory === "All" ? "default" : "secondary"} 
+                  className="cursor-pointer hover:bg-primary/90 transition-colors"
+                >
+                  All
                 </Badge>
+              </Link>
+              {categories.map((category) => (
+                <Link key={category} href={`/blog?category=${encodeURIComponent(category)}`} scroll={false}>
+                  <Badge 
+                    variant={selectedCategory === category ? "default" : "secondary"} 
+                    className="cursor-pointer hover:bg-primary/90 transition-colors"
+                  >
+                    {category}
+                  </Badge>
+                </Link>
               ))}
             </div>
           </AnimatedSection>
@@ -61,11 +83,17 @@ export default function BlogPage() {
       <Section tone="muted" spacing="md">
         <Container>
           <AnimatedSection>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {blogPosts.map((post, index) => (
-                <BlogCard key={post.id} post={post} priority={index < 3} />
-              ))}
-            </div>
+            {filteredPosts.length > 0 ? (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {filteredPosts.map((post, index) => (
+                  <BlogCard key={post.id} post={post} priority={index < 3} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20">
+                <p className="text-muted-foreground text-lg">No posts found in this category.</p>
+              </div>
+            )}
           </AnimatedSection>
         </Container>
       </Section>

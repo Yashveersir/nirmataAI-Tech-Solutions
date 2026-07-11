@@ -15,21 +15,21 @@ interface TestimonialCardProps {
  */
 export function TestimonialCard({ testimonial, className }: TestimonialCardProps) {
   return (
-    <Card className={cn("h-full", className)}>
-      <CardContent className="flex h-full flex-col gap-6 pt-6">
-        <figure>
+    <Card className={cn("premium-card h-full border-border/60", className)}>
+      <CardContent className="flex h-full flex-col gap-6 pt-8">
+        <figure className="flex h-full flex-col">
           <Quote
             aria-hidden="true"
-            className="text-primary/40 size-8"
+            className="text-primary/30 mb-4 size-8"
           />
           <blockquote className="text-foreground flex-1 text-base leading-relaxed">
             <p>&ldquo;{testimonial.quote}&rdquo;</p>
           </blockquote>
-          <figcaption className="border-border mt-auto border-t pt-4">
+          <figcaption className="border-border/60 mt-6 border-t pt-5">
             <p className="text-foreground text-sm font-semibold">
               {testimonial.author}
             </p>
-            <p className="text-muted-foreground text-xs">
+            <p className="text-muted-foreground mt-0.5 text-xs">
               {testimonial.role}, {testimonial.company}
             </p>
           </figcaption>

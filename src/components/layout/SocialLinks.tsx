@@ -51,7 +51,7 @@ export function SocialLinks({
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
-                "text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors",
+                "text-muted-foreground hover:text-primary inline-flex size-10 items-center justify-center rounded-lg border border-transparent transition-all duration-200 hover:border-border/60 hover:bg-accent/60",
               )}
             >
               {Icon ? <Icon size={iconSize} aria-hidden="true" /> : null}

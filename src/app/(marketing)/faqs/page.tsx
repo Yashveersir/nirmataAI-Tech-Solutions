@@ -71,22 +71,23 @@ export default function FAQsPage() {
       })}
 
       {/* Still have questions CTA */}
-      <Section spacing="lg">
+      <Section spacing="lg" className="relative overflow-hidden">
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-mesh-gradient opacity-50" />
         <Container size="sm">
           <AnimatedSection>
-            <div className="text-center">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <div className="rounded-3xl border border-border/60 bg-card/80 px-8 py-14 text-center shadow-sm backdrop-blur-sm">
+              <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
                 Still Have Questions?
               </h2>
-              <p className="text-muted-foreground mx-auto mt-4 max-w-xl text-lg">
+              <p className="text-muted-foreground mx-auto mt-5 max-w-xl text-lg leading-relaxed">
                 We are happy to answer any questions about your specific project
                 or requirements. No obligation, just a conversation.
               </p>
-              <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button asChild size="lg">
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Button asChild size="lg" className="min-w-[180px]">
                   <Link href="/contact">Contact Us</Link>
                 </Button>
-                <Button asChild variant="outline" size="lg">
+                <Button asChild variant="outline" size="lg" className="min-w-[180px] bg-background/60 backdrop-blur-sm">
                   <Link href="/services">Explore Services</Link>
                 </Button>
               </div>

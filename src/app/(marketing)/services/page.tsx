@@ -1,14 +1,6 @@
 import type { LucideIcon } from "lucide-react";
-import {
-  Code2,
-  Sparkles,
-  Blocks,
-  Cloud,
-  Palette,
-  Smartphone,
-  CheckCircle,
-  ArrowRight,
-} from "lucide-react";
+import { CheckCircle, ArrowRight } from "lucide-react";
+import { FaAws, FaReact, FaApple, FaBrain, FaCode, FaFigma } from "react-icons/fa";
 import Link from "next/link";
 import { services } from "@/data/services";
 import { Section } from "@/components/layout/Section";
@@ -33,13 +25,13 @@ export const metadata = createMetadata({
   path: "/services",
 });
 
-const iconMap: Record<string, LucideIcon> = {
-  "web-development": Code2,
-  "ai-solutions": Sparkles,
-  "custom-software": Blocks,
-  "cloud-devops": Cloud,
-  "ui-ux-design": Palette,
-  "mobile-development": Smartphone,
+const iconMap: Record<string, React.ElementType> = {
+  "web-development": FaReact,
+  "ai-solutions": FaBrain,
+  "custom-software": FaCode,
+  "cloud-devops": FaAws,
+  "ui-ux-design": FaFigma,
+  "mobile-development": FaApple,
 };
 
 export default function ServicesPage() {
@@ -58,7 +50,7 @@ export default function ServicesPage() {
       </Section>
 
       {services.map((service, index) => {
-        const Icon = iconMap[service.slug] ?? Code2;
+        const Icon = iconMap[service.slug] ?? FaReact;
         return (
           <Section
             key={service.id}
@@ -69,11 +61,17 @@ export default function ServicesPage() {
               <AnimatedSection>
                 <div className="grid gap-12 lg:grid-cols-5">
                   {/* Left: Overview */}
-                  <div className="lg:col-span-3">
-                    <div className="bg-primary/10 text-primary mb-4 inline-flex size-12 items-center justify-center rounded-lg">
-                      <Icon className="size-6" aria-hidden="true" />
+                  <div className="lg:col-span-3 relative group">
+                    {/* Watermark Logo */}
+                    <div className="absolute top-0 right-0 z-0 text-primary/5 transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-12 group-hover:text-primary/10 pointer-events-none">
+                      <Icon className="size-64" aria-hidden="true" />
                     </div>
-                    <h2 className="text-3xl font-bold tracking-tight">
+
+                    <div className="relative z-10">
+                      <div className="bg-background/80 border border-primary/20 text-primary mb-5 inline-flex size-14 items-center justify-center rounded-2xl shadow-sm">
+                        <Icon className="size-6" aria-hidden="true" />
+                      </div>
+                    <h2 className="font-display text-3xl font-bold tracking-tight">
                       {service.title}
                     </h2>
                     <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
@@ -113,11 +111,12 @@ export default function ServicesPage() {
                         </li>
                       ))}
                     </ul>
+                    </div>
                   </div>
 
                   {/* Right: Tech stack + FAQ */}
                   <div className="lg:col-span-2">
-                    <div className="bg-card border-border sticky top-28 space-y-6 rounded-lg border p-6 shadow-sm">
+                    <div className="bg-card border-border/70 sticky top-28 space-y-6 rounded-2xl border p-7 shadow-sm">
                       {/* Technologies */}
                       <div>
                         <h3 className="text-sm font-semibold tracking-widest uppercase">
@@ -170,19 +169,20 @@ export default function ServicesPage() {
       })}
 
       {/* Bottom CTA */}
-      <Section tone="muted" spacing="lg">
+      <Section tone="muted" spacing="lg" className="relative overflow-hidden">
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-mesh-gradient opacity-50" />
         <Container size="md">
           <AnimatedSection>
-            <div className="text-center">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <div className="rounded-3xl border border-border/60 bg-card/80 px-8 py-14 text-center shadow-sm backdrop-blur-sm">
+              <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
                 Not Sure Which Service You Need?
               </h2>
-              <p className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg">
+              <p className="text-muted-foreground mx-auto mt-5 max-w-2xl text-lg leading-relaxed">
                 Every project is different. Let us learn about your goals and
                 recommend the right approach — no obligation, no pressure.
               </p>
-              <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button asChild size="lg" className="min-w-[200px]">
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Button asChild size="lg" className="min-w-[220px]">
                   <Link href="/contact">Book a Free Consultation</Link>
                 </Button>
               </div>

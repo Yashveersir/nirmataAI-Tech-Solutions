@@ -28,7 +28,7 @@ export function WhatsAppButton() {
           exit={{ opacity: 0, scale: 0.5, y: 20 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="fixed bottom-6 right-6 z-50 flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-colors hover:bg-[#20bd5a] hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[#25D366]/50 sm:bottom-8 sm:right-8"
+          className="fixed bottom-6 right-6 z-50 flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 transition-all duration-300 hover:bg-[#20bd5a] hover:shadow-xl hover:shadow-[#25D366]/40 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40 sm:bottom-8 sm:right-8"
           aria-label="Chat with us on WhatsApp"
         >
           <FaWhatsapp className="size-8" />

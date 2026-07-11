@@ -45,13 +45,13 @@ export default function HomePage() {
       <Section id="stats" tone="muted" spacing="sm">
         <Container>
           <AnimatedSection>
-            <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 sm:gap-10">
               {stats.map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="font-display text-4xl font-extrabold text-primary sm:text-5xl">
+                <div key={stat.label} className="group text-center">
+                  <div className="font-display text-4xl font-extrabold tracking-tight text-primary transition-transform duration-300 group-hover:scale-105 sm:text-5xl">
                     {stat.value}
                   </div>
-                  <div className="mt-2 text-sm font-medium text-muted-foreground">
+                  <div className="mt-2.5 text-sm font-medium tracking-wide text-muted-foreground">
                     {stat.label}
                   </div>
                 </div>
@@ -73,6 +73,7 @@ export default function HomePage() {
           <AnimatedSection>
             <SectionHeader
               centered
+              eyebrow="Insights"
               title="Latest Insights"
               subtitle="Thoughts on AI engineering, web development, product design, and building software that lasts."
             />
@@ -95,23 +96,27 @@ export default function HomePage() {
       </Section>
 
       {/* Final CTA Section */}
-      <Section tone="muted" id="cta">
+      <Section tone="muted" id="cta" className="relative overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-mesh-gradient opacity-60"
+        />
         <Container size="md">
           <AnimatedSection>
-            <div className="text-center">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <div className="rounded-3xl border border-border/60 bg-card/80 px-8 py-14 text-center shadow-sm backdrop-blur-sm sm:px-12 sm:py-16">
+              <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
                 Ready to Build Something Great?
               </h2>
-              <p className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg">
+              <p className="text-muted-foreground mx-auto mt-5 max-w-2xl text-lg leading-relaxed">
                 Let&apos;s discuss your project. Whether you need a full platform
                 build, an AI feature, or a trusted technology partner — we&apos;re
                 here to help.
               </p>
-              <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button asChild size="lg" className="min-w-[200px]">
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Button asChild size="lg" className="min-w-[220px]">
                   <Link href="/contact">Start a Conversation</Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="min-w-[200px]">
+                <Button asChild variant="outline" size="lg" className="min-w-[220px] bg-background/60 backdrop-blur-sm">
                   <Link href="/services">View Our Services</Link>
                 </Button>
               </div>

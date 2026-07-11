@@ -72,13 +72,14 @@ const websiteJsonLd = {
 };
 
 import Script from "next/script";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-      <body>
+    <html lang="en" className={`${inter.variable} ${outfit.variable}`} suppressHydrationWarning>
+      <body className="min-h-screen bg-background font-sans antialiased">
         <Script
           strategy="afterInteractive"
           src={`https://www.googletagmanager.com/gtag/js?id=G-2TYJQ6T9CN`}
@@ -97,14 +98,21 @@ export default function RootLayout({
             `,
           }}
         />
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        {children}
-        <WhatsAppButton />
-        <JsonLd type="Organization" data={organizationJsonLd} />
-        <JsonLd type="WebSite" data={websiteJsonLd} />
-        <Toaster position="bottom-right" theme="system" />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <a href="#main" className="skip-link">
+            Skip to content
+          </a>
+          {children}
+          <WhatsAppButton />
+          <JsonLd type="Organization" data={organizationJsonLd} />
+          <JsonLd type="WebSite" data={websiteJsonLd} />
+          <Toaster position="bottom-right" theme="system" />
+        </ThemeProvider>
       </body>
     </html>
   );

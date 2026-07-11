@@ -1,5 +1,5 @@
-import { Bot, Sparkles, Database, MessageSquare, Network, Eye, CheckCircle } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { CheckCircle } from "lucide-react";
+import { FaBrain, FaRobot, FaMicrochip, FaNetworkWired, FaEye, FaDatabase, FaMagic } from "react-icons/fa";
 import Link from "next/link";
 import { aiSolutions } from "@/data/ai-solutions";
 import { Section } from "@/components/layout/Section";
@@ -23,14 +23,14 @@ export const metadata = createMetadata({
   path: "/ai-solutions",
 });
 
-const iconMap: Record<string, LucideIcon> = {
-  Bot,
-  Sparkles,
-  Database,
-  MessageSquare,
-  Network,
-  Eye,
-  Brain: Bot,
+const iconMap: Record<string, React.ElementType> = {
+  Brain: FaBrain,
+  Bot: FaRobot,
+  MessageSquare: FaMicrochip,
+  Network: FaNetworkWired,
+  Eye: FaEye,
+  Database: FaDatabase,
+  Sparkles: FaMagic,
 };
 
 const approachSteps = [
@@ -103,13 +103,18 @@ export default function AISolutionsPage() {
           <AnimatedSection>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {aiSolutions.map((solution) => {
-                const Icon = iconMap[solution.icon] ?? Bot;
+                const Icon = iconMap[solution.icon] ?? FaBrain;
                 return (
-                  <Card key={solution.id} className="h-full transition-shadow hover:shadow-md">
-                    <CardHeader>
+                  <Card key={solution.id} className="group relative overflow-hidden h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    {/* Watermark */}
+                    <div className="absolute -bottom-6 -right-6 z-0 text-primary/5 transition-transform duration-700 group-hover:scale-110 group-hover:text-primary/10 group-hover:-rotate-12 pointer-events-none">
+                      <Icon className="size-48" aria-hidden="true" />
+                    </div>
+
+                    <CardHeader className="relative z-10">
                       <div
                         aria-hidden="true"
-                        className="bg-primary/10 text-primary flex size-12 items-center justify-center rounded-lg"
+                        className="bg-background/80 border border-primary/20 text-primary mb-4 flex size-12 items-center justify-center rounded-xl shadow-sm"
                       >
                         <Icon className="size-6" />
                       </div>

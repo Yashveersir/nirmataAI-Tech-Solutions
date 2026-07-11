@@ -53,29 +53,29 @@ export function MobileMenu({ links, cta, open, onOpenChange, className }: Mobile
       aria-modal="true"
       aria-label="Mobile navigation"
       className={cn(
-        "bg-background fixed inset-0 z-50 flex flex-col overflow-y-auto",
+        "bg-background/98 fixed inset-0 z-50 flex flex-col overflow-y-auto backdrop-blur-xl",
         className,
       )}
     >
-      <div className="border-border flex h-16 items-center justify-between border-b px-4 sm:px-6">
+      <div className="border-border/60 flex h-16 items-center justify-between border-b px-4 sm:px-6">
         <Logo />
         <button
           type="button"
           onClick={() => onOpenChange(false)}
           aria-label="Close menu"
-          className="text-foreground hover:bg-muted inline-flex size-10 items-center justify-center rounded-md transition-colors"
+          className="text-foreground hover:bg-accent/80 inline-flex size-10 items-center justify-center rounded-lg transition-colors duration-200"
         >
-          <X className="size-6" aria-hidden="true" />
+          <X className="size-5" aria-hidden="true" />
         </button>
       </div>
-      <nav aria-label="Mobile primary" className="flex-1 px-4 py-8 sm:px-6">
-        <ul className="flex flex-col gap-2">
+      <nav aria-label="Mobile primary" className="flex-1 px-4 py-10 sm:px-6">
+        <ul className="flex flex-col gap-1">
           {links.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
                 onClick={() => onOpenChange(false)}
-                className="text-foreground hover:bg-muted block rounded-md px-3 py-3 text-lg font-medium transition-colors"
+                className="text-foreground hover:bg-accent/80 hover:text-primary block rounded-xl px-4 py-3.5 text-lg font-medium transition-colors duration-200"
               >
                 {link.label}
               </Link>
@@ -83,11 +83,11 @@ export function MobileMenu({ links, cta, open, onOpenChange, className }: Mobile
           ))}
         </ul>
         {cta ? (
-          <div className="mt-8">
+          <div className="mt-10 px-1">
             <Link
               href={cta.href}
               onClick={() => onOpenChange(false)}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex w-full items-center justify-center rounded-md px-6 py-3 text-base font-medium transition-colors"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex w-full items-center justify-center rounded-xl px-6 py-3.5 text-base font-semibold shadow-sm shadow-primary/20 transition-all duration-200"
             >
               {cta.label}
             </Link>

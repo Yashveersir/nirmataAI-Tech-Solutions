@@ -22,9 +22,9 @@ interface SectionProps {
 
 const spacingMap: Record<NonNullable<SectionProps["spacing"]>, string> = {
   none: "",
-  sm: "py-12 md:py-16",
-  md: "py-16 md:py-20 lg:py-24",
-  lg: "py-20 md:py-28 lg:py-32",
+  sm: "py-8 md:py-12",
+  md: "py-12 md:py-16 lg:py-20",
+  lg: "py-16 md:py-20 lg:py-24",
 };
 
 const toneMap: Record<NonNullable<SectionProps["tone"]>, string> = {

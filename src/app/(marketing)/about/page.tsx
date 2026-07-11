@@ -73,34 +73,6 @@ const milestones: Milestone[] = [
   },
 ];
 
-interface TeamMemberItem {
-  name: string;
-  initials: string;
-  bio: string;
-  skills: string[];
-}
-
-const team: TeamMemberItem[] = [
-  {
-    name: "Yashveer Singh",
-    initials: "YS",
-    bio: "Full-stack engineer passionate about AI integrations, clean architecture, and building products people actually enjoy using.",
-    skills: ["Next.js", "Node.js", "AI/ML", "MongoDB"],
-  },
-  {
-    name: "Team Member",
-    initials: "TM",
-    bio: "Frontend wizard obsessed with pixel-perfect UIs, smooth animations, and making the web feel alive.",
-    skills: ["React", "Framer Motion", "UI/UX", "Tailwind"],
-  },
-  {
-    name: "Team Member",
-    initials: "TM",
-    bio: "Backend engineer and cloud architect — keeps our systems fast, secure, and scalable under pressure.",
-    skills: ["DevOps", "AWS", "PostgreSQL", "Security"],
-  },
-];
-
 export default function AboutPage() {
   return (
     <>
@@ -161,15 +133,15 @@ export default function AboutPage() {
                 return (
                   <div
                     key={value.title}
-                    className="border-border bg-card text-card-foreground rounded-lg border p-6 shadow-sm"
+                    className="premium-card group rounded-2xl border border-border/70 bg-card p-7"
                   >
-                    <div className="bg-accent text-accent-foreground mb-4 inline-flex h-10 w-10 items-center justify-center rounded-md">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    <div className="bg-primary/8 border border-primary/15 text-primary mb-5 inline-flex size-11 items-center justify-center rounded-xl transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+                      <Icon className="size-5" aria-hidden="true" />
                     </div>
-                    <h3 className="text-foreground text-lg font-semibold">
+                    <h3 className="font-display text-foreground text-lg font-semibold group-hover:text-primary transition-colors duration-300">
                       {value.title}
                     </h3>
-                    <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+                    <p className="text-muted-foreground mt-2.5 text-sm leading-relaxed">
                       {value.description}
                     </p>
                   </div>
@@ -193,20 +165,20 @@ export default function AboutPage() {
           </AnimatedSection>
 
           <AnimatedSection delay={0.1}>
-            <ol className="border-border mt-12 space-y-8 border-l-2 pl-6 sm:pl-8">
+            <ol className="border-primary/20 mt-14 space-y-10 border-l-2 pl-8 sm:pl-10">
               {milestones.map((milestone) => (
                 <li key={milestone.year} className="relative">
                   <span
                     aria-hidden="true"
-                    className="bg-primary absolute -left-[33px] sm:-left-[41px] top-1.5 h-3 w-3 rounded-full ring-4 ring-background"
+                    className="bg-primary ring-background absolute -left-[37px] sm:-left-[45px] top-1.5 size-3.5 rounded-full ring-4"
                   />
-                  <div className="text-primary text-sm font-semibold tracking-widest uppercase">
+                  <div className="text-primary text-xs font-bold tracking-[0.2em] uppercase">
                     {milestone.year}
                   </div>
-                  <h3 className="text-foreground mt-1 text-lg font-semibold">
+                  <h3 className="font-display text-foreground mt-2 text-lg font-semibold">
                     {milestone.title}
                   </h3>
-                  <p className="text-muted-foreground mt-2 text-sm leading-relaxed sm:text-base">
+                  <p className="text-muted-foreground mt-2.5 text-sm leading-relaxed sm:text-base">
                     {milestone.description}
                   </p>
                 </li>
@@ -216,52 +188,6 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* Team Section */}
-      <Section id="team" tone="muted" aria-labelledby="team-heading">
-        <Container>
-          <AnimatedSection>
-            <SectionHeader
-              centered
-              id="team-heading"
-              title="The People Behind It"
-              subtitle="We're a team of friends from UIT, University of Burdwan — builders who got tired of waiting for permission to build cool things."
-            />
-          </AnimatedSection>
-
-          <AnimatedSection delay={0.1}>
-            <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 justify-center">
-              {team.map((member) => (
-                <div
-                  key={member.name}
-                  className="flex flex-col items-center text-center rounded-xl border border-border bg-card p-6 shadow-sm"
-                >
-                  <div className="size-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 text-2xl font-bold text-primary">
-                    {member.initials}
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground">{member.name}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{member.bio}</p>
-                  <div className="mt-4 flex flex-wrap justify-center gap-2">
-                    {member.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </AnimatedSection>
-
-          <AnimatedSection delay={0.2}>
-            <p className="mt-12 text-center text-sm text-muted-foreground max-w-lg mx-auto">
-              We don&apos;t have fancy titles. We just love building. Every project is a team effort — ideas, code, design, and late-night debugging sessions, all shared equally.
-            </p>
-          </AnimatedSection>
-        </Container>
-      </Section>
     </>
   );
 }

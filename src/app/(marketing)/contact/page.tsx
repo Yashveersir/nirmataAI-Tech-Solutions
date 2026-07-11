@@ -171,7 +171,7 @@ export default function ContactPage() {
               <form
                 onSubmit={handleSubmit}
                 aria-label="Contact us"
-                className="bg-card border-border rounded-lg border p-6 shadow-sm sm:p-8"
+                className="bg-card border-border/70 rounded-2xl border p-8 shadow-sm sm:p-10"
               >
                 <div className="space-y-6">
                   <div className="grid gap-6 sm:grid-cols-2">

@@ -17,11 +17,17 @@ const iconMap: Record<string, LucideIcon> = {
 
 export function AISolutionsTeaser() {
   return (
-    <Section tone="muted" id="ai-solutions">
+    <Section tone="muted" id="ai-solutions" className="relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-grid-subtle opacity-50 [mask-image:linear-gradient(to_bottom,transparent,white_30%,white_70%,transparent)]"
+      />
+
       <Container>
         <AnimatedSection>
           <SectionHeader
             centered
+            eyebrow="Artificial Intelligence"
             title="AI Solutions"
             subtitle="Practical AI capabilities that integrate into your products and workflows without rebuilding them."
           />
@@ -34,28 +40,32 @@ export function AISolutionsTeaser() {
               return (
                 <Card
                   key={solution.id}
-                  className="h-full transition-shadow hover:shadow-md"
+                  className="group premium-card h-full border-border/60"
                 >
                   <CardHeader>
                     <div
                       aria-hidden="true"
-                      className="bg-primary/10 text-primary flex size-10 items-center justify-center rounded-md"
+                      className="bg-primary/8 border border-primary/15 text-primary mb-4 flex size-11 items-center justify-center rounded-xl transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground"
                     >
                       <Icon className="size-5" />
                     </div>
-                    <CardTitle className="text-xl">{solution.title}</CardTitle>
-                    <CardDescription>{solution.shortDescription}</CardDescription>
+                    <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300">
+                      {solution.title}
+                    </CardTitle>
+                    <CardDescription className="leading-relaxed">
+                      {solution.shortDescription}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <ul className="space-y-2">
+                    <ul className="space-y-2.5">
                       {solution.capabilities.slice(0, 3).map((capability) => (
                         <li
                           key={capability}
-                          className="text-muted-foreground flex items-start gap-2 text-sm"
+                          className="text-muted-foreground flex items-start gap-2.5 text-sm"
                         >
                           <span
                             aria-hidden="true"
-                            className="bg-primary mt-1.5 size-1.5 shrink-0 rounded-full"
+                            className="bg-primary mt-2 size-1.5 shrink-0 rounded-full"
                           />
                           {capability}
                         </li>
@@ -69,7 +79,7 @@ export function AISolutionsTeaser() {
         </AnimatedSection>
 
         <AnimatedSection delay={0.2}>
-          <div className="mt-12 flex justify-center">
+          <div className="mt-14 flex justify-center">
             <Button asChild size="lg">
               <Link href="/ai-solutions">Explore AI Solutions</Link>
             </Button>
