@@ -22,6 +22,12 @@ const outfit = Outfit({
 export const metadata: Metadata = createMetadata({
   title: undefined,
   description: siteConfig.description,
+  keywords: [
+    "AI software company",
+    "web development agency",
+    "custom software engineering",
+    "NirmataAI",
+  ],
   path: "/",
 });
 
@@ -65,12 +71,32 @@ const websiteJsonLd = {
   },
 };
 
+import Script from "next/script";
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <body>
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=G-2TYJQ6T9CN`}
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-2TYJQ6T9CN', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
         <a href="#main" className="skip-link">
           Skip to content
         </a>
