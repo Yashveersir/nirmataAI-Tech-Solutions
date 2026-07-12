@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export function WhatsAppButton() {
   const [isVisible, setIsVisible] = useState(false);
@@ -17,26 +17,28 @@ export function WhatsAppButton() {
   }, []);
 
   return (
-    <AnimatePresence>
+    // Always rendered so it reserves space in the flex row from the start.
+    // Only opacity/scale animate — no layout shift to neighbouring buttons.
+    <motion.a
+      href={whatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.5 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      className="relative flex size-14 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 transition-shadow duration-300 hover:bg-[#20bd5a] hover:shadow-xl hover:shadow-[#25D366]/40 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40"
+      aria-label="Chat with us on WhatsApp"
+      aria-hidden={!isVisible}
+      tabIndex={isVisible ? 0 : -1}
+    >
+      <FaWhatsapp className="size-8" />
+
+      {/* Ping animation behind the icon */}
       {isVisible && (
-        <motion.a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          initial={{ opacity: 0, scale: 0.5, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.5, y: 20 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 transition-all duration-300 hover:bg-[#20bd5a] hover:shadow-xl hover:shadow-[#25D366]/40 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40"
-          aria-label="Chat with us on WhatsApp"
-        >
-          <FaWhatsapp className="size-8" />
-          
-          {/* Ping animation behind the icon */}
-          <span className="absolute -z-10 inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-40"></span>
-        </motion.a>
+        <span className="absolute -z-10 inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-40" />
       )}
-    </AnimatePresence>
+    </motion.a>
   );
 }
