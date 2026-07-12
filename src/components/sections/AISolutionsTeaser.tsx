@@ -33,13 +33,12 @@ export function AISolutionsTeaser() {
           />
         </AnimatedSection>
 
-        <AnimatedSection delay={0.1}>
-          <div className="mt-16 grid gap-6 md:grid-cols-3">
-            {aiSolutions.map((solution) => {
-              const Icon = iconMap[solution.icon] ?? Bot;
-              return (
+        <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {aiSolutions.map((solution) => {
+            const Icon = iconMap[solution.icon] ?? Bot;
+            return (
+              <AnimatedSection key={solution.id}>
                 <Card
-                  key={solution.id}
                   className="group premium-card h-full border-border/60"
                 >
                   <CardHeader>
@@ -73,10 +72,10 @@ export function AISolutionsTeaser() {
                     </ul>
                   </CardContent>
                 </Card>
-              );
-            })}
-          </div>
-        </AnimatedSection>
+              </AnimatedSection>
+            );
+          })}
+        </div>
 
         <AnimatedSection delay={0.2}>
           <div className="mt-14 flex justify-center">

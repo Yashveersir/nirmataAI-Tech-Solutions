@@ -66,14 +66,13 @@ const values: Value[] = [
             />
           </AnimatedSection>
   
-          <AnimatedSection delay={0.1}>
-            <div className="mt-20 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {values.map((value) => {
-                const Icon = value.icon;
-                return (
+          <div className="mt-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {values.map((value) => {
+              const Icon = value.icon;
+              return (
+                <AnimatedSection key={value.title}>
                   <Card
-                    key={value.title}
-                    className="group premium-card"
+                    className="group premium-card h-full"
                   >
                     <CardHeader className="pb-4">
                       <div className="bg-background/80 border border-primary/20 text-primary mb-6 flex size-14 items-center justify-center rounded-2xl shadow-[0_0_15px_rgba(var(--color-primary),0.1)] transition-all duration-500 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(var(--color-primary),0.4)]">
@@ -93,10 +92,10 @@ const values: Value[] = [
                       </CardDescription>
                     </CardContent>
                   </Card>
-                );
-              })}
-            </div>
-          </AnimatedSection>
+                </AnimatedSection>
+              );
+            })}
+          </div>
         </Container>
       </Section>
     );

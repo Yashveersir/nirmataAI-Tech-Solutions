@@ -20,17 +20,16 @@ export function PortfolioShowcase() {
           />
         </AnimatedSection>
 
-        <AnimatedSection delay={0.1}>
-          <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project, index) => (
+        <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project, index) => (
+            <AnimatedSection key={project.id}>
               <ProjectCard
-                key={project.id}
                 project={project}
                 priority={index === 0}
               />
-            ))}
-          </div>
-        </AnimatedSection>
+            </AnimatedSection>
+          ))}
+        </div>
 
         <AnimatedSection delay={0.2}>
           <div className="mt-12 flex justify-center">

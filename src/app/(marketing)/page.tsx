@@ -78,13 +78,13 @@ export default function HomePage() {
               subtitle="Thoughts on AI engineering, web development, product design, and building software that lasts."
             />
           </AnimatedSection>
-          <AnimatedSection delay={0.1}>
-            <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {blogPosts.slice(0, 3).map((post, index) => (
-                <BlogCard key={post.id} post={post} priority={index === 0} />
-              ))}
-            </div>
-          </AnimatedSection>
+          <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {blogPosts.slice(0, 3).map((post, index) => (
+              <AnimatedSection key={post.id}>
+                <BlogCard post={post} priority={index === 0} />
+              </AnimatedSection>
+            ))}
+          </div>
           <AnimatedSection delay={0.2}>
             <div className="mt-12 flex justify-center">
               <Button asChild variant="outline" size="lg">
