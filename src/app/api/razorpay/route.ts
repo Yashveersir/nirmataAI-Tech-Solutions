@@ -16,9 +16,12 @@ export async function POST(req: Request) {
       );
     }
 
+    const key_id = process.env.RAZORPAY_KEY_ID?.replace(/"/g, '');
+    const key_secret = process.env.RAZORPAY_KEY_SECRET?.replace(/"/g, '');
+
     const razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_KEY_SECRET,
+      key_id: key_id || '',
+      key_secret: key_secret || '',
     });
 
     const options = {
@@ -29,7 +32,7 @@ export async function POST(req: Request) {
 
     const order = await razorpay.orders.create(options);
 
-    return NextResponse.json({ order, key_id: process.env.RAZORPAY_KEY_ID }, { status: 200 });
+    return NextResponse.json({ order, key_id }, { status: 200 });
   } catch (error: any) {
     console.error('Razorpay Order API Error:', error);
     return NextResponse.json(

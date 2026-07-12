@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import prisma from '@/lib/prisma'; // Assuming standard prisma client location
 
@@ -22,9 +23,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET;
+    const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET?.replace(/"/g, '');
     if (RAZORPAY_KEY_SECRET) {
-      const crypto = require('crypto');
       const generatedSignature = crypto
         .createHmac('sha256', RAZORPAY_KEY_SECRET)
         .update(razorpay_order_id + '|' + razorpay_payment_id)
