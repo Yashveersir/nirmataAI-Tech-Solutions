@@ -73,6 +73,7 @@ const websiteJsonLd = {
 
 import Script from "next/script";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Chatbot } from "@/components/chat/Chatbot";
 
 export default function RootLayout({
   children,
@@ -109,6 +110,7 @@ export default function RootLayout({
           </a>
           {children}
           <WhatsAppButton />
+          <Chatbot />
           <JsonLd type="Organization" data={organizationJsonLd} />
           <JsonLd type="WebSite" data={websiteJsonLd} />
           <Toaster position="bottom-right" theme="system" />

@@ -86,4 +86,31 @@ export const projects: Project[] = [
     caseStudy:
       "A rapidly scaling enterprise required a bespoke project management platform that could securely handle complex team hierarchies and real-time collaboration without compromising data integrity. In response, our engineering team at NirmataAI developed KaryaDesk, a full-stack enterprise SaaS solution.\n\nWe architected a robust Node.js and Express backend integrated with MongoDB, implementing highly secure authentication mechanisms including JWT rotation, HTTP-only cookies, and a sophisticated double submit cookie pattern for CSRF protection on all state-changing endpoints. The system supports dynamic role-based access control (Owner, Project Admin, Member, Viewer) ensuring strict data segregation and operational security.\n\nOn the frontend, we built a highly responsive React 18 SPA utilizing Vite, Zustand for global state, and TanStack Query for seamless server-state synchronization and caching. Integrated with Cloudinary for asset management and Nodemailer for automated communications, KaryaDesk delivers a seamless, high-performance workspace that empowers teams to track progress, manage subtasks, and collaborate securely in real-time.",
   },
+  {
+    id: "staygenie",
+    slug: "staygenie-booking-platform",
+    title: "StayGenie Booking Platform",
+    category: "Marketplace & Booking System",
+    description:
+      "A production-ready full-stack marketplace application facilitating property listings, secure user authentication, and interactive map-based property searches.",
+    technologies: ["Node.js", "Express.js", "MongoDB", "EJS", "JWT Auth"],
+    thumbnail: "/images/portfolio/staygenie.png",
+    liveUrl: "https://staygenie-qnds.onrender.com",
+    githubUrl: "https://github.com/Raj143verma/Wanderlust",
+    caseStudy:
+      "A hospitality startup required a scalable, production-ready marketplace platform to disrupt the short-term rental market. They needed a system capable of handling complex property listings, secure user transactions, and dynamic map integrations.\n\nOur engineering team at NirmataAI architected StayGenie using a robust MVC architecture with Node.js, Express, and MongoDB. We implemented a highly secure JWT-based authentication flow, ensuring that property operations—such as creating, editing, and deleting listings—are strictly governed by ownership-based access controls.\n\nThe platform features a fully responsive UI built with EJS templates, integrating interactive maps for exact property localization, and a comprehensive review and rating system. The result is a seamless, highly optimized booking experience that supports extensive search and filtering, giving our client a competitive edge in the digital real estate space.",
+  },
+  {
+    id: "nirmataai-chatbot",
+    slug: "nirmataai-chatbot",
+    title: "NirmataAI Website Chatbot",
+    category: "Generative AI & Conversational UI",
+    description:
+      "An AI-powered, streaming chatbot widget embedded on the NirmataAI website. Built with Google Gemini & Groq Llama as fallback, it answers visitor questions about services, pricing, and processes in real time.",
+    technologies: ["Next.js", "TypeScript", "Vercel AI SDK", "Google Gemini", "Groq Llama", "Tailwind CSS"],
+    thumbnail: "/images/portfolio/nirmataai-chatbot.png",
+    liveUrl: "https://nirmataai.site",
+    caseStudy:
+      "NirmataAI needed an intelligent, always-available assistant that could engage website visitors, answer common questions about services and pricing, and guide leads toward booking a consultation — without any human intervention.\n\nOur team built a production-grade, streaming AI chatbot directly into the NirmataAI website using the Next.js App Router and the Vercel AI SDK. The chatbot is powered by a dynamically generated system prompt that is constructed at runtime from the company's own data files — services, FAQs, and contact information — making it a living assistant that stays perfectly in sync with the site content.\n\nFor maximum reliability, the system implements a multi-model fallback strategy: Google Gemini 2.0 Flash is the primary model, with Groq's Llama 3.3 70B serving as an automatic, zero-downtime fallback in case of provider unavailability. The entire response is streamed to the browser using the native Fetch ReadableStream API, delivering a smooth real-time typing effect.\n\nThe widget itself was engineered from the ground up as a self-contained React component — no third-party chat SDK dependencies. It features a premium pill-shaped floating trigger with an animated 'online' pulse indicator, quick-reply suggestion chips, full AbortController-based request lifecycle management, and comprehensive ARIA accessibility attributes. The result is a conversion-focused, enterprise-quality chatbot that operates entirely within the existing tech stack at zero additional infrastructure cost.",
+  },
 ];
