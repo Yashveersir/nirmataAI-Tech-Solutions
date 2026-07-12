@@ -171,15 +171,19 @@ export function Chatbot() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end sm:bottom-6 sm:right-6">
+    // Outer wrapper: explicit width = min(viewport - 2rem, 380px), anchored to right-4.
+    // This guarantees the chat window never overflows the left side of the screen.
+    <div
+      className="fixed bottom-24 right-4 z-50 flex flex-col items-end sm:bottom-28 sm:right-6"
+      style={{ width: "min(calc(100vw - 2rem), 380px)" }}
+    >
       {/* Chat Window */}
       {isOpen && (
         <div
-          className="mb-3 flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card"
+          className="mb-3 flex w-full flex-col overflow-hidden rounded-2xl border border-border/60 bg-card"
           style={{
             boxShadow: "0 8px 40px rgba(0,0,0,0.22)",
-            width: "min(calc(100vw - 2rem), 380px)",
-            height: "min(520px, calc(100dvh - 6rem))",
+            height: "min(520px, calc(100dvh - 8rem))",
           }}
           role="dialog"
           aria-label="NirmataAI chat assistant"
