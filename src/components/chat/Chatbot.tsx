@@ -281,16 +281,16 @@ export function Chatbot() {
           </div>
 
           {/* Input */}
-          <div className="shrink-0 border-t border-border/60 bg-background px-3 py-3">
+          <div className="shrink-0 border-t border-border/60 bg-background px-3 pb-3 pt-2">
             <form
               onSubmit={handleSubmit}
-              className="flex items-center gap-2"
+              className="flex flex-col gap-2"
               aria-label="Chat input"
             >
               <input
                 id="chat-input"
                 type="text"
-                className="flex-1 rounded-full border border-border bg-muted/50 px-4 py-2 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-xl border border-border bg-muted/50 px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -302,13 +302,19 @@ export function Chatbot() {
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
                 aria-label="Send message"
               >
                 {isLoading ? (
-                  <Loader2 className="size-4 animate-spin" />
+                  <>
+                    <Loader2 className="size-4 animate-spin" />
+                    <span>Sending…</span>
+                  </>
                 ) : (
-                  <Send className="size-4" />
+                  <>
+                    <Send className="size-4" />
+                    <span>Send Message</span>
+                  </>
                 )}
               </button>
             </form>
