@@ -171,11 +171,11 @@ export function Chatbot() {
   };
 
   return (
-    // Outer wrapper: explicit width = min(viewport - 2rem, 380px), anchored to right-4.
-    // This guarantees the chat window never overflows the left side of the screen.
+    // No fixed here — the shared wrapper in layout.tsx handles positioning.
+    // Width accounts for WhatsApp button (56px) + gap (12px) + right padding (~16px).
     <div
-      className="fixed bottom-24 right-4 z-50 flex flex-col items-end sm:bottom-28 sm:right-6"
-      style={{ width: "min(calc(100vw - 2rem), 380px)" }}
+      className="flex flex-col items-end"
+      style={{ width: "min(calc(100vw - 8rem), 380px)" }}
     >
       {/* Chat Window */}
       {isOpen && (

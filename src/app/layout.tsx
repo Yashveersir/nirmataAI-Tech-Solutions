@@ -109,8 +109,11 @@ export default function RootLayout({
             Skip to content
           </a>
           {children}
-          <WhatsAppButton />
-          <Chatbot />
+          {/* Shared bottom-right widget row: Chatbot pill + WhatsApp button */}
+          <div className="fixed bottom-6 right-4 z-50 flex items-end gap-3 sm:right-6">
+            <Chatbot />
+            <WhatsAppButton />
+          </div>
           <JsonLd type="Organization" data={organizationJsonLd} />
           <JsonLd type="WebSite" data={websiteJsonLd} />
           <Toaster position="bottom-right" theme="system" />
