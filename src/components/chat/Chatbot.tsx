@@ -171,12 +171,16 @@ export function Chatbot() {
   };
 
   return (
-    <div className="fixed bottom-6 right-24 z-50 flex flex-col items-end sm:bottom-8 sm:right-28">
+    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end sm:bottom-6 sm:right-6">
       {/* Chat Window */}
       {isOpen && (
         <div
-          className="mb-4 flex h-[520px] w-[340px] flex-col overflow-hidden rounded-2xl border border-border/60 bg-card sm:w-[380px]"
-          style={{ boxShadow: "0 8px 40px rgba(0,0,0,0.22)" }}
+          className="mb-3 flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card"
+          style={{
+            boxShadow: "0 8px 40px rgba(0,0,0,0.22)",
+            width: "min(calc(100vw - 2rem), 380px)",
+            height: "min(520px, calc(100dvh - 6rem))",
+          }}
           role="dialog"
           aria-label="NirmataAI chat assistant"
         >
@@ -322,23 +326,23 @@ export function Chatbot() {
       ) : (
         <button
           onClick={() => setIsOpen(true)}
-          className="group flex items-center gap-3 rounded-full bg-primary py-3 pl-3 pr-5 text-primary-foreground shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95"
+          className="group flex items-center gap-2 rounded-full bg-primary py-2.5 pl-2.5 pr-2.5 text-primary-foreground shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 sm:gap-3 sm:py-3 sm:pl-3 sm:pr-5"
           aria-label="Open NirmataAI chat"
           aria-expanded={false}
           style={{ boxShadow: "0 4px 28px rgba(0,0,0,0.25)" }}
         >
           {/* Bot avatar with pulse ring */}
-          <span className="relative flex shrink-0 size-9 items-center justify-center rounded-full bg-primary-foreground/20">
-            <Bot className="size-5" aria-hidden="true" />
+          <span className="relative flex size-8 shrink-0 items-center justify-center rounded-full bg-primary-foreground/20 sm:size-9">
+            <Bot className="size-4 sm:size-5" aria-hidden="true" />
             {/* Live online pulse dot */}
-            <span className="absolute -top-0.5 -right-0.5 flex size-3">
+            <span className="absolute -right-0.5 -top-0.5 flex size-2.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex size-3 rounded-full bg-green-400 border-2 border-primary" />
+              <span className="relative inline-flex size-2.5 rounded-full border-2 border-primary bg-green-400" />
             </span>
           </span>
 
-          {/* Label */}
-          <span className="flex flex-col items-start leading-tight">
+          {/* Label — hidden on very small screens, visible on sm+ */}
+          <span className="hidden flex-col items-start leading-tight sm:flex">
             <span className="text-xs font-bold tracking-wide">NirmataAI</span>
             <span className="text-[10px] opacity-80">Ask me anything ✦</span>
           </span>
