@@ -330,23 +330,23 @@ export function Chatbot() {
       ) : (
         <button
           onClick={() => setIsOpen(true)}
-          className="group flex items-center gap-2 rounded-full bg-primary py-2.5 pl-2.5 pr-2.5 text-primary-foreground shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 sm:gap-3 sm:py-3 sm:pl-3 sm:pr-5"
+          className="group flex items-center gap-3 rounded-full bg-primary py-3 pl-3 pr-5 text-primary-foreground shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95"
           aria-label="Open NirmataAI chat"
           aria-expanded={false}
           style={{ boxShadow: "0 4px 28px rgba(0,0,0,0.25)" }}
         >
           {/* Bot avatar with pulse ring */}
-          <span className="relative flex size-8 shrink-0 items-center justify-center rounded-full bg-primary-foreground/20 sm:size-9">
-            <Bot className="size-4 sm:size-5" aria-hidden="true" />
+          <span className="relative flex size-9 shrink-0 items-center justify-center rounded-full bg-primary-foreground/20">
+            <Bot className="size-5" aria-hidden="true" />
             {/* Live online pulse dot */}
-            <span className="absolute -right-0.5 -top-0.5 flex size-2.5">
+            <span className="absolute -right-0.5 -top-0.5 flex size-3">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex size-2.5 rounded-full border-2 border-primary bg-green-400" />
+              <span className="relative inline-flex size-3 rounded-full border-2 border-primary bg-green-400" />
             </span>
           </span>
 
-          {/* Label — hidden on very small screens, visible on sm+ */}
-          <span className="hidden flex-col items-start leading-tight sm:flex">
+          {/* Label — always visible */}
+          <span className="flex flex-col items-start leading-tight">
             <span className="text-xs font-bold tracking-wide">NirmataAI</span>
             <span className="text-[10px] opacity-80">Ask me anything ✦</span>
           </span>
