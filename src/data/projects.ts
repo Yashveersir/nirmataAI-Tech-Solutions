@@ -73,4 +73,17 @@ export const projects: Project[] = [
     caseStudy:
       "A corporate training client needed an automated, scalable way to evaluate and coach employees on their public speaking skills. Our AI engineering team at NirmataAI built a comprehensive video analysis pipeline that processes raw video uploads to extract multi-modal performance metrics.\n\nWe orchestrated a complex serverless pipeline utilizing FFmpeg for audio/frame extraction, OpenAI's Whisper API for precise speech-to-text and filler word detection, and MediaPipe for advanced computer vision tasks like facial landmark detection and eye contact tracking. By aggregating these distinct data streams (confidence, clarity, engagement, and gaze direction), our proprietary scoring engine calculates a weighted composite score.\n\nFinally, we integrated Anthropic's Claude Sonnet to synthesize the raw metric data into actionable, highly personalized coaching feedback. The resulting platform delivers enterprise-grade, unbiased presentation coaching automatically, revolutionizing how the client handles professional development.",
   },
+  {
+    id: "karyadesk",
+    slug: "karyadesk-platform",
+    title: "KaryaDesk Management Platform",
+    category: "Enterprise SaaS Platform",
+    description:
+      "A comprehensive full-stack project management platform offering real-time collaboration, strict role-based access control, and advanced security architectures.",
+    technologies: ["React 18", "Node.js", "Express", "MongoDB", "Zustand", "TanStack Query", "Tailwind CSS"],
+    thumbnail: "/images/portfolio/karyadesk.png",
+    liveUrl: "https://www.karyadesk.xyz/",
+    caseStudy:
+      "A rapidly scaling enterprise required a bespoke project management platform that could securely handle complex team hierarchies and real-time collaboration without compromising data integrity. In response, our engineering team at NirmataAI developed KaryaDesk, a full-stack enterprise SaaS solution.\n\nWe architected a robust Node.js and Express backend integrated with MongoDB, implementing highly secure authentication mechanisms including JWT rotation, HTTP-only cookies, and a sophisticated double submit cookie pattern for CSRF protection on all state-changing endpoints. The system supports dynamic role-based access control (Owner, Project Admin, Member, Viewer) ensuring strict data segregation and operational security.\n\nOn the frontend, we built a highly responsive React 18 SPA utilizing Vite, Zustand for global state, and TanStack Query for seamless server-state synchronization and caching. Integrated with Cloudinary for asset management and Nodemailer for automated communications, KaryaDesk delivers a seamless, high-performance workspace that empowers teams to track progress, manage subtasks, and collaborate securely in real-time.",
+  },
 ];
