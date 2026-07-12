@@ -41,15 +41,15 @@ export default function PortfolioPage() {
 
       <Section tone="muted" spacing="md">
         <Container>
-          <AnimatedSection>
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {projects.map((project, index) => (                  <Card
-                    key={project.id}
-                    className="group h-full overflow-hidden pt-0 transition-shadow hover:shadow-md"
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {projects.map((project, index) => (
+                <AnimatedSection key={project.id}>
+                  <Card
+                    className="group h-full overflow-hidden pt-0 transition-shadow hover:shadow-md flex flex-col"
                   >
                     <Link
                       href={`/portfolio/${project.slug}`}
-                      className="focus-visible:ring-ring block rounded-t-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                      className="focus-visible:ring-ring block rounded-t-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 shrink-0"
                     >
                       <div className="bg-muted relative aspect-[3/2] w-full overflow-hidden">
                         <Image
@@ -62,39 +62,41 @@ export default function PortfolioPage() {
                         />
                       </div>
                     </Link>
-                  <CardHeader>
-                    <span className="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
-                      {project.category}
-                    </span>
-                    <CardTitle className="text-xl">
-                      <Link
-                        href={`/portfolio/${project.slug}`}
-                        className="hover:text-primary transition-colors"
-                      >
-                        {project.title}
-                      </Link>
-                    </CardTitle>
-                    <CardDescription>{project.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech) => (
-                        <Badge key={tech} variant="secondary">
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                    <Button asChild variant="link" size="sm" className="px-0">
-                      <Link href={`/portfolio/${project.slug}`}>
-                        View Case Study
-                        <ArrowRight aria-hidden="true" />
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
+                    <CardHeader className="flex-none">
+                      <span className="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
+                        {project.category}
+                      </span>
+                      <CardTitle className="text-xl">
+                        <Link
+                          href={`/portfolio/${project.slug}`}
+                          className="hover:text-primary transition-colors"
+                        >
+                          {project.title}
+                        </Link>
+                      </CardTitle>
+                      <CardDescription>{project.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4 flex-1 flex flex-col justify-end">
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies.map((tech) => (
+                          <Badge key={tech} variant="secondary">
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="pt-2">
+                        <Button asChild variant="link" size="sm" className="px-0">
+                          <Link href={`/portfolio/${project.slug}`}>
+                            View Case Study
+                            <ArrowRight aria-hidden="true" className="ml-2" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </AnimatedSection>
               ))}
             </div>
-          </AnimatedSection>
         </Container>
       </Section>
 
