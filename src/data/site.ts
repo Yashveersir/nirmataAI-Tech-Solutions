@@ -24,6 +24,7 @@ export const siteInfo: SiteInfo = {
     { label: "Services", href: "/services" },
     { label: "AI Solutions", href: "/ai-solutions" },
     { label: "Portfolio", href: "/portfolio" },
+    { label: "Careers", href: "/careers" },
     { label: "Blog", href: "/blog" },
     { label: "Contact", href: "/contact" },
   ],
