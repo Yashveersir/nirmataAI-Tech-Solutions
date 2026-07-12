@@ -91,13 +91,35 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
       {/* Case Study Content */}
       <AnimatedSection as="div" delay={0.2}>
-        <Container size="md" className="py-20 md:py-28">
-          <h2 className="text-sm font-semibold tracking-widest uppercase text-muted-foreground">
-            Case Study
-          </h2>
-          <p className="text-foreground text-lg leading-relaxed mt-6">
-            {project.caseStudy}
-          </p>
+        <Container size="md" className="py-20 md:py-24">
+          <div className="flex items-center gap-4 mb-10">
+            <div className="h-px flex-1 bg-border/60"></div>
+            <h2 className="text-sm font-semibold tracking-widest uppercase text-primary">
+              The Challenge & Solution
+            </h2>
+            <div className="h-px flex-1 bg-border/60"></div>
+          </div>
+          
+          <div className="space-y-8 bg-card/60 backdrop-blur-xl border border-border/50 rounded-3xl p-8 sm:p-14 shadow-sm relative overflow-hidden">
+            {/* Subtle decorative gradient */}
+            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
+            
+            <div className="relative z-10 space-y-8">
+              {project.caseStudy.split('\n\n').map((paragraph, i) => (
+                <p 
+                  key={i} 
+                  className={`leading-relaxed ${
+                    i === 0 
+                      ? "text-foreground text-xl sm:text-2xl font-medium tracking-tight" 
+                      : "text-muted-foreground text-lg"
+                  }`}
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </div>
         </Container>
       </AnimatedSection>
 

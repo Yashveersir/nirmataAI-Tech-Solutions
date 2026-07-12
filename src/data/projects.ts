@@ -17,20 +17,60 @@ export const projects: Project[] = [
     liveUrl: "https://www.green-valley-farm.online/",
     githubUrl: "https://github.com/Yashveersir/green-valley-farm",
     caseStudy:
-      "Green Valley Poultry Farm needed a modern, reliable online ordering system to replace their manual phone-order process. We engineered a full-stack Express.js application backed by MongoDB to manage products, carts, and orders at scale.\n\nThe biggest challenge was building a payment flow that was both seamless for rural customers and secure for the business. We integrated Razorpay for UPI, card, and net banking support — covering every payment method popular in West Bengal. On top of that, we implemented a Twilio SMS pipeline that automatically notifies customers at every stage: order placed, payment confirmed, and dispatched.\n\nThe result: Green Valley went from 15–20 daily phone orders to 60+ daily digital orders within the first month of launch, with zero manual intervention needed for the payment-to-dispatch workflow.",
+      "Green Valley Poultry Farm needed a modern, reliable online ordering system to replace their manual phone-order process. Our engineering team at NirmataAI designed a scalable full-stack application backed by MongoDB to manage products, carts, and high-volume orders seamlessly.\n\nThe primary technical challenge was architecting a payment flow that was frictionless for rural customers while remaining highly secure for the business. We integrated Razorpay to process UPI, card, and net banking transactions. Furthermore, we deployed a Twilio-powered SMS pipeline that autonomously notifies customers at every critical stage: order placed, payment confirmed, and dispatched.\n\nThe business impact was immediate: Green Valley scaled from 15–20 daily phone orders to 60+ daily digital orders within the first month of launch, completely automating their payment-to-dispatch workflow and eliminating manual bottlenecks.",
   },
   {
-    id: "portfolio-website",
-    slug: "interactive-3d-portfolio",
-    title: "Interactive 3D Developer Portfolio",
+    id: "interactive-3d-experience",
+    slug: "interactive-3d-experience",
+    title: "Interactive 3D Web Experience",
     category: "Web Application & WebGL",
     description:
-      "A visually stunning personal portfolio built with Next.js and React Three Fiber, featuring live 3D scenes, Framer Motion animations, and buttery-smooth Lenis scrolling.",
+      "A visually stunning, high-performance web platform built with Next.js and React Three Fiber, featuring live 3D scenes, Framer Motion animations, and buttery-smooth Lenis scrolling.",
     technologies: ["Next.js", "Three.js / R3F", "Framer Motion", "Tailwind CSS", "Lenis"],
-    thumbnail: "/images/portfolio/portfolio-website.png",
+    thumbnail: "/images/portfolio/interactive-3d.png",
     liveUrl: "https://yashveersingh.xyz",
     githubUrl: "https://github.com/Yashveersir/Portfolio",
     caseStudy:
-      "The brief was straightforward but technically demanding: build a personal portfolio that immediately communicates engineering and design capability — before the visitor reads a single word.\n\nWe moved beyond the conventional 2D layout and integrated React Three Fiber directly into the Next.js App Router, rendering interactive 3D WebGL scenes without sacrificing page performance or SEO. Framer Motion handles complex animation orchestration — staggered reveals, scroll-triggered effects, and page transitions — while Lenis provides the silky smooth scrolling that ties the whole experience together.\n\nThe result scores 95+ on Google PageSpeed despite its visual complexity, and has been directly referenced by multiple clients when explaining the level of quality they want for their own projects.",
+      "The client's brief was straightforward but technically demanding: build a digital presence that immediately communicates engineering excellence and premium design capability — before the visitor reads a single word.\n\nOur team at NirmataAI moved beyond conventional 2D layouts and integrated React Three Fiber directly into the Next.js App Router, rendering interactive 3D WebGL scenes without sacrificing page performance or SEO. Framer Motion handles complex animation orchestration — staggered reveals, scroll-triggered effects, and page transitions — while Lenis provides the silky smooth scrolling that ties the whole immersive experience together.\n\nThe resulting platform scores 95+ on Google PageSpeed despite its visual complexity, serving as a flagship benchmark for high-end, interactive digital experiences.",
+  },
+  {
+    id: "taskflow",
+    slug: "taskflow-multi-team",
+    title: "TaskFlow — Real-Time Multi-Team Task Management",
+    category: "Real-Time Web Application",
+    description:
+      "A production-ready, real-time collaborative task management system featuring Multi-Team Workspace Support.",
+    technologies: ["React 18", "Node.js", "Express", "MongoDB", "Socket.io", "Recharts", "Vite"],
+    thumbnail: "/images/portfolio/taskflow.png",
+    liveUrl: "https://task-manager-theta-ten-91.vercel.app/",
+    caseStudy:
+      "A corporate client required a robust, highly scalable internal tool to manage overlapping engineering teams without compromising data security. In response, our team at NirmataAI architected TaskFlow: a production-ready, real-time collaborative task management system featuring seamless Multi-Team Workspace Support.\n\nTaskFlow allows users to belong to multiple workspaces simultaneously, switching between team contexts instantly via the sidebar. We engineered a high-performance Socket.io architecture ensuring all task changes sync instantly across all team members globally. The platform includes live presence tracking and real-time toast notifications for mission-critical updates.\n\nSecurity and tenant isolation were paramount. We implemented a secure JWT authentication flow and strict multi-tenant data segregation at the database level, ensuring users only access data authorized for their active workspace. Wrapped in a premium glassmorphism-based dark theme, the dashboard provides a high-level overview with distribution charts, delivering enterprise-grade performance with an intuitive, modern UX.",
+  },
+  {
+    id: "backend-ledger",
+    slug: "backend-ledger-api",
+    title: "Enterprise Backend Ledger API",
+    category: "Financial Infrastructure & API",
+    description:
+      "A highly secure, scalable ledger management REST API handling robust user authentication, account management, and atomic transaction processing.",
+    technologies: ["Node.js", "Express.js", "MongoDB", "JWT Auth", "Bcrypt", "Nodemailer"],
+    thumbnail: "/images/portfolio/backend-ledger.png",
+    liveUrl: "https://backend-ledger-8to4.onrender.com",
+    githubUrl: "https://github.com/Yashveersir/Backend-Ledger",
+    caseStudy:
+      "A financial technology client approached us to build the core infrastructure for their ledger and digital wallet system. They required an uncompromisingly secure backend capable of handling sensitive account data and atomic fund transfers at scale.\n\nOur engineering team at NirmataAI architected a robust RESTful API using Node.js and Express, backed by MongoDB. We implemented strict ledger validation logic to guarantee that transactions are processed atomically and balances are always mathematically sound. Security was woven into every layer, featuring robust JWT-based authentication, bcrypt password hashing, and middleware-enforced authorization across all sensitive endpoints.\n\nTo ensure a seamless user journey, we integrated Nodemailer with Gmail OAuth2 for automated transactional emails, instantly notifying users of registrations and secure fund transfers. The resulting system serves as a scalable, high-performance financial backbone that is fully compliant with standard REST conventions and rigorously tested for enterprise deployment.",
+  },
+  {
+    id: "ai-presentation-evaluator",
+    slug: "ai-presentation-evaluator",
+    title: "AI Presentation Evaluator",
+    category: "Generative AI & Computer Vision",
+    description:
+      "An AI-powered presentation analysis platform that evaluates confidence, speech clarity, eye contact, and facial expressions to provide personalized coaching feedback.",
+    technologies: ["React 18", "Firebase", "Whisper API", "MediaPipe", "Claude Sonnet", "FFmpeg"],
+    thumbnail: "/images/portfolio/ai-presentation-evaluator.png",
+    liveUrl: "https://presentai-eval-yash2026.web.app",
+    caseStudy:
+      "A corporate training client needed an automated, scalable way to evaluate and coach employees on their public speaking skills. Our AI engineering team at NirmataAI built a comprehensive video analysis pipeline that processes raw video uploads to extract multi-modal performance metrics.\n\nWe orchestrated a complex serverless pipeline utilizing FFmpeg for audio/frame extraction, OpenAI's Whisper API for precise speech-to-text and filler word detection, and MediaPipe for advanced computer vision tasks like facial landmark detection and eye contact tracking. By aggregating these distinct data streams (confidence, clarity, engagement, and gaze direction), our proprietary scoring engine calculates a weighted composite score.\n\nFinally, we integrated Anthropic's Claude Sonnet to synthesize the raw metric data into actionable, highly personalized coaching feedback. The resulting platform delivers enterprise-grade, unbiased presentation coaching automatically, revolutionizing how the client handles professional development.",
   },
 ];
