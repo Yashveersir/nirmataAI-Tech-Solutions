@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import prisma from '@/lib/prisma'; // Assuming standard prisma client location
 
 export async function POST(req: Request) {
   try {
@@ -30,7 +29,7 @@ export async function POST(req: Request) {
     if (CASHFREE_APP_ID && CASHFREE_SECRET_KEY) {
       try {
         const response = await fetch(
-          `https://sandbox.cashfree.com/pg/orders/${cashfree_order_id}/payments`,
+          `https://api.cashfree.com/pg/orders/${cashfree_order_id}/payments`,
           {
             method: 'GET',
             headers: {
@@ -72,34 +71,12 @@ export async function POST(req: Request) {
       }
     }
 
-    // 1. Save to Database
-    let savedApplication;
-    try {
-      savedApplication = await prisma.internApplication.create({
-        data: {
-          name,
-          email,
-          mobile: mobile || null,
-          university: university || null,
-          role,
-          message,
-          paymentId: verifiedPaymentId || "unverified",
-          paymentOrderId: cashfree_order_id,
-          paymentStatus: 'PAID',
-        },
-      });
-    } catch (dbError) {
-      console.error('Database Error:', dbError);
-      return NextResponse.json(
-        { error: 'Failed to save application to database. Did you run prisma db push?' },
-        { status: 500 }
-      );
-    }
-
     // 2. Save to Grist
     const GRIST_API_KEY = process.env.GRIST_API_KEY;
-    const GRIST_DOC_ID = 'vbESZVpgXQDV';
+    const GRIST_DOC_ID = 'rf3G8gPaj7We';
     const GRIST_TABLE_ID = process.env.GRIST_TABLE_ID || 'Table1';
+
+    let applicationId = cashfree_order_id; // Using order ID as application reference
 
     if (GRIST_API_KEY) {
       try {
@@ -119,6 +96,8 @@ export async function POST(req: Request) {
                   University: university || '',
                   Role: role,
                   Message: message,
+                  PaymentId: verifiedPaymentId || "unverified",
+                  PaymentOrderId: cashfree_order_id,
                   Date: new Date().toISOString()
                 }
               }
@@ -128,6 +107,11 @@ export async function POST(req: Request) {
 
         if (!gristResponse.ok) {
           console.error('Failed to save to Grist:', await gristResponse.text());
+        } else {
+           const gristData = await gristResponse.json();
+           if (gristData.records && gristData.records.length > 0) {
+              applicationId = gristData.records[0].id.toString();
+           }
         }
       } catch (gristError) {
         console.error('Error connecting to Grist:', gristError);
@@ -251,7 +235,7 @@ export async function POST(req: Request) {
             <h3 style="color: #374151; font-size: 16px; margin-bottom: 12px;">Cover Letter / Links:</h3>
             <div style="background-color: #f3f4f6; padding: 16px; border-radius: 8px; color: #4b5563; font-size: 15px; line-height: 1.6; white-space: pre-wrap;">${message.replace(/\n/g, '<br>')}</div>
             
-            <p style="color: #9ca3af; font-size: 12px; margin-top: 24px;">Application ID: ${savedApplication.id}</p>
+            <p style="color: #9ca3af; font-size: 12px; margin-top: 24px;">Application ID: ${applicationId}</p>
           </div>
         </div>
       `,

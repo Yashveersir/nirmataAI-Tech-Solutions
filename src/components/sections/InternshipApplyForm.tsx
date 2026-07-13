@@ -106,7 +106,7 @@ export function InternshipApplyForm() {
       const { payment_session_id, order_id } = orderData;
 
       // 2. Open Cashfree Checkout Modal
-      const cashfree = await load({ mode: "sandbox" }); // Switched to sandbox for testing
+      const cashfree = await load({ mode: "production" }); // Switched to production
       
       const checkoutOptions = {
         paymentSessionId: payment_session_id,
