@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Send, CheckCircle, Loader2, CreditCard } from "lucide-react";
+import { Send, CheckCircle, Loader2, CreditCard, Download } from "lucide-react";
 import { load } from '@cashfreepayments/cashfree-js';
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -62,6 +62,7 @@ export function InternshipApplyForm() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogStatus, setDialogStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState("");
+  const [completedOrder, setCompletedOrder] = useState<any>(null);
 
   const validate = (): boolean => {
     const next: Partial<Record<keyof InternshipFormData, string>> = {};
@@ -144,6 +145,16 @@ export function InternshipApplyForm() {
             if (!submitResponse.ok) {
               throw new Error(submitData.error || 'Failed to submit application');
             }
+            
+            setCompletedOrder({
+              name: form.name,
+              email: form.email,
+              mobile: form.mobile,
+              role: form.role,
+              orderId: order_id,
+              amount: 49,
+              date: new Date(),
+            });
             
             setDialogStatus('success');
             toast.success("Payment successful and Application submitted!");
@@ -316,8 +327,20 @@ export function InternshipApplyForm() {
                   Thank you for applying. We will review your application and get back to you soon.
                 </DialogDescription>
               </DialogHeader>
-              <DialogFooter className="w-full sm:justify-center mt-6">
-                <Button onClick={() => handleCloseDialog(false)} className="w-full sm:w-auto min-w-[120px]">
+              <DialogFooter className="w-full sm:justify-center mt-6 gap-2">
+                {completedOrder && (
+                  <Button 
+                    variant="default" 
+                    onClick={() => {
+                      import("@/lib/generateInvoice").then(m => m.generateInvoice(completedOrder));
+                    }} 
+                    className="w-full sm:w-auto min-w-[150px]"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Download Invoice
+                  </Button>
+                )}
+                <Button variant="outline" onClick={() => handleCloseDialog(false)} className="w-full sm:w-auto min-w-[120px]">
                   Close
                 </Button>
               </DialogFooter>
