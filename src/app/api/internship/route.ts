@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { Cashfree, CFEnvironment } from 'cashfree-pg';
 import nodemailer from 'nodemailer';
 import prisma from '@/lib/prisma'; // Assuming standard prisma client location
 
@@ -29,15 +28,34 @@ export async function POST(req: Request) {
     let verifiedPaymentId = null;
 
     if (CASHFREE_APP_ID && CASHFREE_SECRET_KEY) {
-      (Cashfree as any).XClientId = CASHFREE_APP_ID;
-      (Cashfree as any).XClientSecret = CASHFREE_SECRET_KEY;
-      (Cashfree as any).XEnvironment = CFEnvironment.PRODUCTION; // Switch to SANDBOX for testing
-      
       try {
-        const response = await (Cashfree as any).PGOrderFetchPayments("2023-08-01", cashfree_order_id);
-        const payments = response.data || [];
-        const successfulPayment = payments.find((p: any) => p.payment_status === "SUCCESS");
-        
+        const response = await fetch(
+          `https://api.cashfree.com/pg/orders/${cashfree_order_id}/payments`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-version': '2023-08-01',
+              'x-client-id': CASHFREE_APP_ID,
+              'x-client-secret': CASHFREE_SECRET_KEY,
+            },
+          }
+        );
+
+        const payments = await response.json();
+
+        if (!response.ok) {
+          console.error("Cashfree verification error:", JSON.stringify(payments));
+          return NextResponse.json(
+            { error: 'Failed to verify payment status with Cashfree.' },
+            { status: 500 }
+          );
+        }
+
+        const successfulPayment = Array.isArray(payments)
+          ? payments.find((p: any) => p.payment_status === "SUCCESS")
+          : null;
+
         if (!successfulPayment) {
           return NextResponse.json(
             { error: 'Payment not found or not successful. Payment verification failed.' },
@@ -46,7 +64,7 @@ export async function POST(req: Request) {
         }
         verifiedPaymentId = successfulPayment.cf_payment_id?.toString();
       } catch (err: any) {
-        console.error("Cashfree verification error", err?.response?.data || err);
+        console.error("Cashfree verification error", err);
         return NextResponse.json(
           { error: 'Failed to verify payment status with Cashfree.' },
           { status: 500 }
