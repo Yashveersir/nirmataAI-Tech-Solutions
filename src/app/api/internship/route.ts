@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     if (CASHFREE_APP_ID && CASHFREE_SECRET_KEY) {
       try {
         const response = await fetch(
-          `https://api.cashfree.com/pg/orders/${cashfree_order_id}/payments`,
+          `https://sandbox.cashfree.com/pg/orders/${cashfree_order_id}/payments`,
           {
             method: 'GET',
             headers: {

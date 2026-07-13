@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       }
     };
 
-    const response = await fetch('https://api.cashfree.com/pg/orders', {
+    const response = await fetch('https://sandbox.cashfree.com/pg/orders', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
