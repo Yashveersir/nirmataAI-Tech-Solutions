@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Send, CheckCircle, Loader2, CreditCard } from "lucide-react";
-import Script from "next/script";
+import { load } from '@cashfreepayments/cashfree-js';
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -84,11 +84,18 @@ export function InternshipApplyForm() {
     setDialogOpen(true);
     
     try {
-      // 1. Generate Razorpay Order
-      const orderResponse = await fetch('/api/razorpay', {
+      // 1. Generate Cashfree Order
+      const orderResponse = await fetch('/api/cashfree', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: 49 }),
+        body: JSON.stringify({ 
+          amount: 49,
+          customer_details: {
+            name: form.name,
+            email: form.email,
+            phone: form.mobile || "9999999999"
+          }
+        }),
       });
       
       const orderData = await orderResponse.json();
@@ -96,17 +103,24 @@ export function InternshipApplyForm() {
         throw new Error(orderData.error || 'Failed to initialize payment');
       }
 
-      const { order, key_id } = orderData;
+      const { payment_session_id, order_id } = orderData;
 
-      // 2. Open Razorpay Checkout
-      const options = {
-        key: key_id,
-        amount: order.amount,
-        currency: order.currency,
-        name: "NirmataAI Tech Solutions",
-        description: "Internship Application Fee",
-        order_id: order.id,
-        handler: async function (response: any) {
+      // 2. Open Cashfree Checkout Modal
+      const cashfree = await load({ mode: "production" }); // Use "sandbox" for testing
+      
+      const checkoutOptions = {
+        paymentSessionId: payment_session_id,
+        redirectTarget: "_modal",
+      };
+
+      cashfree.checkout(checkoutOptions).then(async (result: any) => {
+        if(result.error){
+          setErrorMessage(result.error.message || "Payment Failed");
+          setDialogStatus('error');
+          setLoading(false);
+          toast.error("Payment Failed");
+        }
+        if(result.paymentDetails){
           setDialogStatus('sending');
           try {
             const payload = {
@@ -116,16 +130,12 @@ export function InternshipApplyForm() {
               university: form.university,
               role: form.role,
               message: form.message,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature,
+              cashfree_order_id: order_id, // Passed to backend to verify payment status
             };
 
             const submitResponse = await fetch('/api/internship', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
+              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload),
             });
             
@@ -145,32 +155,8 @@ export function InternshipApplyForm() {
           } finally {
             setLoading(false);
           }
-        },
-        prefill: {
-          name: form.name,
-          email: form.email,
-          contact: form.mobile || "",
-        },
-        theme: {
-          color: "#2563eb",
-        },
-        modal: {
-          ondismiss: function () {
-            setLoading(false);
-            setDialogOpen(false);
-            toast.error("Payment cancelled");
-          }
         }
-      };
-
-      const rzp = new (window as any).Razorpay(options);
-      rzp.on('payment.failed', function (response: any) {
-        setErrorMessage("Payment Failed. Reason: " + response.error.description);
-        setDialogStatus('error');
-        setLoading(false);
       });
-      rzp.open();
-
     } catch (error: any) {
       console.error(error);
       setErrorMessage(error.message || "Failed to initiate payment. Please try again.");
@@ -197,7 +183,6 @@ export function InternshipApplyForm() {
 
   return (
     <>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <form
         onSubmit={handleSubmit}
         aria-label="Internship Application Form"

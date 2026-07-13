@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import crypto from 'crypto';
+import { Cashfree, CFEnvironment } from 'cashfree-pg';
 import nodemailer from 'nodemailer';
 import prisma from '@/lib/prisma'; // Assuming standard prisma client location
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, mobile, university, role, message, razorpay_payment_id, razorpay_order_id, razorpay_signature } = body;
+    const { name, email, mobile, university, role, message, cashfree_order_id } = body;
 
     // Validate inputs
     if (!name || !email || !role || !message) {
@@ -16,24 +16,40 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
+    if (!cashfree_order_id) {
       return NextResponse.json(
         { error: 'Payment verification failed. Missing payment details.' },
         { status: 400 }
       );
     }
 
-    const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET?.replace(/"/g, '');
-    if (RAZORPAY_KEY_SECRET) {
-      const generatedSignature = crypto
-        .createHmac('sha256', RAZORPAY_KEY_SECRET)
-        .update(razorpay_order_id + '|' + razorpay_payment_id)
-        .digest('hex');
+    const CASHFREE_APP_ID = process.env.CASHFREE_APP_ID?.replace(/"/g, '');
+    const CASHFREE_SECRET_KEY = process.env.CASHFREE_SECRET_KEY?.replace(/"/g, '');
+    
+    let verifiedPaymentId = null;
 
-      if (generatedSignature !== razorpay_signature) {
+    if (CASHFREE_APP_ID && CASHFREE_SECRET_KEY) {
+      (Cashfree as any).XClientId = CASHFREE_APP_ID;
+      (Cashfree as any).XClientSecret = CASHFREE_SECRET_KEY;
+      (Cashfree as any).XEnvironment = CFEnvironment.PRODUCTION; // Switch to SANDBOX for testing
+      
+      try {
+        const response = await (Cashfree as any).PGOrderFetchPayments("2023-08-01", cashfree_order_id);
+        const payments = response.data || [];
+        const successfulPayment = payments.find((p: any) => p.payment_status === "SUCCESS");
+        
+        if (!successfulPayment) {
+          return NextResponse.json(
+            { error: 'Payment not found or not successful. Payment verification failed.' },
+            { status: 400 }
+          );
+        }
+        verifiedPaymentId = successfulPayment.cf_payment_id?.toString();
+      } catch (err: any) {
+        console.error("Cashfree verification error", err?.response?.data || err);
         return NextResponse.json(
-          { error: 'Invalid payment signature. Payment verification failed.' },
-          { status: 400 }
+          { error: 'Failed to verify payment status with Cashfree.' },
+          { status: 500 }
         );
       }
     }
@@ -49,8 +65,8 @@ export async function POST(req: Request) {
           university: university || null,
           role,
           message,
-          paymentId: razorpay_payment_id,
-          paymentOrderId: razorpay_order_id,
+          paymentId: verifiedPaymentId || "unverified",
+          paymentOrderId: cashfree_order_id,
           paymentStatus: 'PAID',
         },
       });
