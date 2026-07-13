@@ -97,6 +97,8 @@ export function generateInvoice(details: InvoiceDetails) {
   doc.text('This is a computer-generated receipt and does not require a signature.', 14, 280);
   doc.text('Thank you for applying to NirmataAI Tech Solutions.', 14, 285);
   
-  // --- Save ---
-  doc.save(`Receipt_${details.orderId}.pdf`);
+  // --- Return Base64 ---
+  // Returns base64 encoded PDF string without the data URI prefix
+  const dataUri = doc.output('datauristring');
+  return dataUri.split(',')[1];
 }

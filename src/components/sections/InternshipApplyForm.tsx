@@ -62,7 +62,6 @@ export function InternshipApplyForm() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogStatus, setDialogStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState("");
-  const [completedOrder, setCompletedOrder] = useState<any>(null);
 
   const validate = (): boolean => {
     const next: Partial<Record<keyof InternshipFormData, string>> = {};
@@ -124,6 +123,18 @@ export function InternshipApplyForm() {
         if(result.paymentDetails){
           setDialogStatus('sending');
           try {
+            // Generate PDF Invoice as Base64 on the client
+            const { generateInvoice } = await import("@/lib/generateInvoice");
+            const invoiceBase64 = generateInvoice({
+              name: form.name,
+              email: form.email,
+              mobile: form.mobile,
+              role: form.role,
+              orderId: order_id,
+              amount: 49,
+              date: new Date(),
+            });
+
             const payload = {
               name: form.name,
               email: form.email,
@@ -131,7 +142,8 @@ export function InternshipApplyForm() {
               university: form.university,
               role: form.role,
               message: form.message,
-              cashfree_order_id: order_id, // Passed to backend to verify payment status
+              cashfree_order_id: order_id,
+              invoice_pdf_base64: invoiceBase64,
             };
 
             const submitResponse = await fetch('/api/internship', {
@@ -145,16 +157,6 @@ export function InternshipApplyForm() {
             if (!submitResponse.ok) {
               throw new Error(submitData.error || 'Failed to submit application');
             }
-            
-            setCompletedOrder({
-              name: form.name,
-              email: form.email,
-              mobile: form.mobile,
-              role: form.role,
-              orderId: order_id,
-              amount: 49,
-              date: new Date(),
-            });
             
             setDialogStatus('success');
             toast.success("Payment successful and Application submitted!");
@@ -325,21 +327,10 @@ export function InternshipApplyForm() {
                 <DialogTitle className="text-2xl">Application Received!</DialogTitle>
                 <DialogDescription className="text-base mt-2">
                   Thank you for applying. We will review your application and get back to you soon.
+                  A confirmation email with your invoice has been sent.
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter className="w-full sm:justify-center mt-6 gap-2">
-                {completedOrder && (
-                  <Button 
-                    variant="default" 
-                    onClick={() => {
-                      import("@/lib/generateInvoice").then(m => m.generateInvoice(completedOrder));
-                    }} 
-                    className="w-full sm:w-auto min-w-[150px]"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Download Invoice
-                  </Button>
-                )}
                 <Button variant="outline" onClick={() => handleCloseDialog(false)} className="w-full sm:w-auto min-w-[120px]">
                   Close
                 </Button>

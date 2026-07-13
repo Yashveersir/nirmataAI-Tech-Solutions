@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma'; // Assuming standard prisma client location
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, mobile, university, role, message, cashfree_order_id } = body;
+    const { name, email, mobile, university, role, message, cashfree_order_id, invoice_pdf_base64 } = body;
 
     // Validate inputs
     if (!name || !email || !role || !message) {
@@ -179,6 +179,10 @@ export async function POST(req: Request) {
             to: [{ email: payload.to?.toString() || SMTP_FROM, name: payload.to?.toString() || 'Admin' }],
             subject: payload.subject,
             htmlContent: payload.html,
+            attachment: payload.attachments ? (payload.attachments as any[]).map(a => ({
+              content: a.content.toString('base64'),
+              name: a.filename
+            })) : undefined
           };
 
           const response = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -257,18 +261,33 @@ export async function POST(req: Request) {
     const clientPayload = {
       from: `"NirmataAI Tech Solutions" <${SMTP_FROM}>`,
       to: email,
-      subject: 'Application Received - NirmataAI Internship 2026',
+      subject: 'Application & Payment Confirmed - NirmataAI Internship 2026',
+      attachments: invoice_pdf_base64 ? [
+        {
+          filename: `Receipt_${cashfree_order_id}.pdf`,
+          content: Buffer.from(invoice_pdf_base64, 'base64'),
+          contentType: 'application/pdf'
+        }
+      ] : [],
       html: `
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9fafb; padding: 40px 20px; border-radius: 12px;">
-          <div style="background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border-top: 4px solid #2563eb; text-align: center;">
-            <img src="https://nirmataai.site/logo.png" alt="NirmataAI Logo" style="height: 48px; margin-bottom: 24px;" />
-            <h1 style="color: #111827; font-size: 24px; font-weight: 700; margin-top: 0; margin-bottom: 16px;">Application Received!</h1>
-            <p style="color: #4b5563; font-size: 16px; line-height: 1.6; margin-bottom: 24px; text-align: left;">
-              Hi <strong>${name}</strong>,<br><br>
-              Thank you for applying to the <strong>2026 Internship Program</strong> at NirmataAI Tech Solutions for the role of <strong>${role}</strong>.
+        <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f5; padding: 40px 20px; border-radius: 16px;">
+          <div style="background-color: #ffffff; padding: 48px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-top: 6px solid #2563eb; text-align: center;">
+            <img src="https://nirmataai.site/logo.png" alt="NirmataAI Logo" style="height: 56px; margin-bottom: 32px;" />
+            <h1 style="color: #111827; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-top: 0; margin-bottom: 16px;">Application Received! 🎉</h1>
+            <p style="color: #4b5563; font-size: 16px; line-height: 1.7; margin-bottom: 24px; text-align: left;">
+              Hi <strong style="color: #111827;">${name}</strong>,<br><br>
+              Thank you for applying to the <strong style="color: #2563eb;">2026 Internship Program</strong> at NirmataAI Tech Solutions for the role of <strong>${role}</strong>.
             </p>
             
-            <p style="color: #4b5563; font-size: 16px; line-height: 1.6; text-align: left; margin-bottom: 32px;">
+            <div style="background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 16px; margin-bottom: 32px; text-align: left;">
+              <p style="color: #065f46; font-size: 15px; margin: 0; font-weight: 500;">
+                ✅ Payment of ₹49.00 Successful<br>
+                <span style="font-size: 13px; color: #047857; font-weight: 400;">Order ID: ${cashfree_order_id}</span>
+              </p>
+            </div>
+            
+            <p style="color: #4b5563; font-size: 16px; line-height: 1.7; text-align: left; margin-bottom: 32px;">
+              Your application fee receipt is <strong>attached to this email as a PDF document</strong> for your records.<br><br>
               Our recruitment team will review your profile and get back to you soon regarding the next steps. We appreciate your interest in building the future with us!
             </p>
             
