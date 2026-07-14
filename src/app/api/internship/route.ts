@@ -73,6 +73,13 @@ export async function POST(req: Request) {
       }
     }
 
+    if (!verifiedPaymentId) {
+      console.warn('Payment not fully verified or missing, but proceeding with application submission.');
+    }
+
+    // Generate unique Intern ID
+    const internId = `NIRMATA-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+
     // 2. Save to Google Sheets
     const GOOGLE_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
     const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');
@@ -101,6 +108,7 @@ export async function POST(req: Request) {
           Message: 'Attached in Email',
           PaymentId: verifiedPaymentId || "unverified",
           PaymentOrderId: cashfree_order_id,
+          InternId: internId,
           Date: new Date().toISOString()
         });
       } catch (sheetsError) {
@@ -206,6 +214,10 @@ export async function POST(req: Request) {
             
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
               <tr>
+                <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb; width: 140px;"><strong style="color: #374151;">Intern ID:</strong></td>
+                <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb; color: #111827;">${internId}</td>
+              </tr>
+              <tr>
                 <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb; width: 140px;"><strong style="color: #374151;">Name:</strong></td>
                 <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb; color: #111827;">${name}</td>
               </tr>
@@ -258,7 +270,8 @@ export async function POST(req: Request) {
             <div style="background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 16px; margin-bottom: 32px; text-align: left;">
               <p style="color: #065f46; font-size: 15px; margin: 0; font-weight: 500;">
                 ✅ Payment of ₹49.00 Successful<br>
-                <span style="font-size: 13px; color: #047857; font-weight: 400;">Order ID: ${cashfree_order_id}</span>
+                <span style="font-size: 13px; color: #047857; font-weight: 400;">Order ID: ${cashfree_order_id}</span><br>
+                <span style="font-size: 13px; color: #047857; font-weight: 400;">Intern ID: <strong>${internId}</strong></span>
               </p>
             </div>
             
