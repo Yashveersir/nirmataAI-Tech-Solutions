@@ -336,7 +336,13 @@ export function InternshipApplyForm() {
             ) : (
               <CreditCard className="mr-2 size-4" aria-hidden="true" />
             )}
-            {loading ? "Processing..." : "Pay ₹49 & Apply"}
+            {loading ? (
+              "Processing..."
+            ) : (
+              <span>
+                Pay <del className="text-white/60 mx-1">₹99</del> ₹49 & Apply
+              </span>
+            )}
           </Button>
         </div>
       </form>
