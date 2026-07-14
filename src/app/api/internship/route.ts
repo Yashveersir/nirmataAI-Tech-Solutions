@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, mobile, university, role, message, cashfree_order_id, invoice_pdf_base64 } = body;
+    const { name, email, mobile, university, role, message, cashfree_order_id } = body;
 
     // Validate inputs
     if (!name || !email || !role || !message) {
@@ -137,24 +137,7 @@ export async function POST(req: Request) {
     }
 
     const sendEmail = async (payload: nodemailer.SendMailOptions) => {
-      if (SMTP_USER && SMTP_PASS) {
-        try {
-          const transporter = nodemailer.createTransport({
-            host: SMTP_HOST,
-            port: SMTP_PORT,
-            secure: SMTP_PORT === 465,
-            auth: {
-              user: SMTP_USER,
-              pass: SMTP_PASS,
-            },
-          });
-          await transporter.sendMail(payload);
-          return;
-        } catch (error) {
-          console.warn('SMTP Error, falling back to REST API if available:', error);
-        }
-      }
-
+      // Prioritize REST API over SMTP to prevent Vercel serverless function timeouts
       if (BREVO_API_KEY) {
         try {
           const apiPayload = {
@@ -163,10 +146,6 @@ export async function POST(req: Request) {
             to: [{ email: payload.to?.toString() || SMTP_FROM, name: payload.to?.toString() || 'Admin' }],
             subject: payload.subject,
             htmlContent: payload.html,
-            attachment: payload.attachments ? (payload.attachments as any[]).map(a => ({
-              content: a.content.toString('base64'),
-              name: a.filename
-            })) : undefined
           };
 
           const response = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -186,7 +165,26 @@ export async function POST(req: Request) {
           return;
         } catch (error) {
           console.error('REST API Error:', error);
-          throw new Error('Failed to send email via both SMTP and REST API');
+          // Fall through to SMTP if REST fails
+        }
+      }
+
+      if (SMTP_USER && SMTP_PASS) {
+        try {
+          const transporter = nodemailer.createTransport({
+            host: SMTP_HOST,
+            port: SMTP_PORT,
+            secure: SMTP_PORT === 465,
+            auth: {
+              user: SMTP_USER,
+              pass: SMTP_PASS,
+            },
+          });
+          await transporter.sendMail(payload);
+          return;
+        } catch (error) {
+          console.error('SMTP Error:', error);
+          throw new Error('Failed to send email via SMTP');
         }
       }
 
@@ -246,13 +244,6 @@ export async function POST(req: Request) {
       from: `"NirmataAI Tech Solutions" <${SMTP_FROM}>`,
       to: email,
       subject: 'Application & Payment Confirmed - NirmataAI Internship 2026',
-      attachments: invoice_pdf_base64 ? [
-        {
-          filename: `Receipt_${cashfree_order_id}.pdf`,
-          content: Buffer.from(invoice_pdf_base64, 'base64'),
-          contentType: 'application/pdf'
-        }
-      ] : [],
       html: `
         <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f5; padding: 40px 20px; border-radius: 16px;">
           <div style="background-color: #ffffff; padding: 48px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-top: 6px solid #2563eb; text-align: center;">
@@ -271,7 +262,6 @@ export async function POST(req: Request) {
             </div>
             
             <p style="color: #4b5563; font-size: 16px; line-height: 1.7; text-align: left; margin-bottom: 32px;">
-              Your application fee receipt is <strong>attached to this email as a PDF document</strong> for your records.<br><br>
               Our recruitment team will review your profile and get back to you soon regarding the next steps. We appreciate your interest in building the future with us!
             </p>
             

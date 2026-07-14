@@ -123,18 +123,6 @@ export function InternshipApplyForm() {
         if(result.paymentDetails){
           setDialogStatus('sending');
           try {
-            // Generate PDF Invoice as Base64 on the client
-            const { generateInvoice } = await import("@/lib/generateInvoice");
-            const invoiceBase64 = generateInvoice({
-              name: form.name,
-              email: form.email,
-              mobile: form.mobile,
-              role: form.role,
-              orderId: order_id,
-              amount: 49,
-              date: new Date(),
-            });
-
             const payload = {
               name: form.name,
               email: form.email,
@@ -143,7 +131,6 @@ export function InternshipApplyForm() {
               role: form.role,
               message: form.message,
               cashfree_order_id: order_id,
-              invoice_pdf_base64: invoiceBase64,
             };
 
             const submitResponse = await fetch('/api/internship', {
