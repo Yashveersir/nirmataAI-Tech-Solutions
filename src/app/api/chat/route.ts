@@ -37,6 +37,7 @@ Company Information:
 - Contact Email: ${siteInfo.contact.email}
 - Contact Phone: ${siteInfo.contact.phone}
 - Address: ${siteInfo.contact.address}
+- Internships: We are actively hiring for our 2026 Internship Program! Candidates can view roles and apply directly on our Careers page (/careers).
 
 Services we provide:
 ${servicesContext}
