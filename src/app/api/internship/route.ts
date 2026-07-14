@@ -6,7 +6,7 @@ import { JWT } from 'google-auth-library';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, mobile, university, role, message, cashfree_order_id, resume_base64, resume_name } = body;
+    const { name, email, mobile, university, role, duration, message, cashfree_order_id, resume_base64, resume_name } = body;
 
     // Validate inputs
     if (!name || !email || !role || !message) {
@@ -105,6 +105,7 @@ export async function POST(req: Request) {
           Mobile: mobile || '',
           University: university || '',
           Role: role,
+          Duration: duration || '',
           Message: 'Attached in Email',
           PaymentId: verifiedPaymentId || "unverified",
           PaymentOrderId: cashfree_order_id,
@@ -236,8 +237,11 @@ export async function POST(req: Request) {
               <tr>
                 <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;"><strong style="color: #374151;">Role Applied For:</strong></td>
                 <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb; color: #111827;">
-                  <span style="display: inline-block; background-color: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 9999px; font-size: 14px; font-weight: 500;">
+                  <span style="display: inline-block; background-color: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 9999px; font-size: 14px; font-weight: 500; margin-right: 8px;">
                     ${role}
+                  </span>
+                  <span style="display: inline-block; background-color: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 9999px; font-size: 14px; font-weight: 500;">
+                    ${duration || 'Not specified'}
                   </span>
                 </td>
               </tr>
@@ -264,7 +268,7 @@ export async function POST(req: Request) {
             <h1 style="color: #111827; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-top: 0; margin-bottom: 16px;">Application Received! 🎉</h1>
             <p style="color: #4b5563; font-size: 16px; line-height: 1.7; margin-bottom: 24px; text-align: left;">
               Hi <strong style="color: #111827;">${name}</strong>,<br><br>
-              Thank you for applying to the <strong style="color: #2563eb;">2026 Internship Program</strong> at NirmataAI Tech Solutions for the role of <strong>${role}</strong>.
+              Thank you for applying to the <strong style="color: #2563eb;">2026 Internship Program</strong> at NirmataAI Tech Solutions for the role of <strong>${role} (${duration || 'Duration not specified'})</strong>.
             </p>
             
             <div style="background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 16px; margin-bottom: 32px; text-align: left;">

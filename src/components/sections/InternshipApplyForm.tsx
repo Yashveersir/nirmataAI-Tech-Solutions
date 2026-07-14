@@ -41,6 +41,7 @@ interface InternshipFormData {
   mobile: string;
   university: string;
   role: string;
+  duration: string;
   resumeBase64: string;
   resumeName: string;
 }
@@ -51,6 +52,7 @@ const initialForm: InternshipFormData = {
   mobile: "",
   university: "",
   role: "",
+  duration: "",
   resumeBase64: "",
   resumeName: "",
 };
@@ -72,6 +74,7 @@ export function InternshipApplyForm() {
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
       next.email = "Please enter a valid email.";
     if (!form.role) next.role = "Please select a role.";
+    if (!form.duration) next.duration = "Please select a duration.";
     if (!form.resumeBase64) next.resumeBase64 = "Please upload your resume (PDF).";
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -131,6 +134,7 @@ export function InternshipApplyForm() {
               mobile: form.mobile,
               university: form.university,
               role: form.role,
+              duration: form.duration,
               message: "Attached in Email",
               resume_base64: form.resumeBase64,
               resume_name: form.resumeName,
@@ -267,26 +271,47 @@ export function InternshipApplyForm() {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="intern-role">
-              Role Applying For <span className="text-destructive">*</span>
-            </Label>
-            <Select
-              value={form.role}
-              onValueChange={(val) => update("role", val)}
-            >
-              <SelectTrigger id="intern-role" aria-invalid={!!errors.role}>
-                <SelectValue placeholder="Select a role" />
-              </SelectTrigger>
-              <SelectContent>
-                {internshipRoles.map((role) => (
-                  <SelectItem key={role.value} value={role.value}>
-                    {role.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.role && <p className="text-destructive text-xs">{errors.role}</p>}
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="intern-role">
+                Role Applying For <span className="text-destructive">*</span>
+              </Label>
+              <Select
+                value={form.role}
+                onValueChange={(val) => update("role", val)}
+              >
+                <SelectTrigger id="intern-role" aria-invalid={!!errors.role}>
+                  <SelectValue placeholder="Select a role" />
+                </SelectTrigger>
+                <SelectContent>
+                  {internshipRoles.map((role) => (
+                    <SelectItem key={role.value} value={role.value}>
+                      {role.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {errors.role && <p className="text-destructive text-xs">{errors.role}</p>}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="intern-duration">
+                Internship Duration <span className="text-destructive">*</span>
+              </Label>
+              <Select
+                value={form.duration}
+                onValueChange={(val) => update("duration", val)}
+              >
+                <SelectTrigger id="intern-duration" aria-invalid={!!errors.duration}>
+                  <SelectValue placeholder="Select duration" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="4 Weeks">4 Weeks</SelectItem>
+                  <SelectItem value="6 Weeks">6 Weeks</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.duration && <p className="text-destructive text-xs">{errors.duration}</p>}
+            </div>
           </div>
 
           <div className="space-y-2">
