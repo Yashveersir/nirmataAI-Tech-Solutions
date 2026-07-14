@@ -21,6 +21,8 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.4.0",
     "framer-motion": "^12.42.2",
+    "google-auth-library": "^10.9.0",
+    "google-spreadsheet": "^5.3.0",
     "lucide-react": "^1.24.0",
     "next": "latest",
     "next-themes": "^0.4.6",

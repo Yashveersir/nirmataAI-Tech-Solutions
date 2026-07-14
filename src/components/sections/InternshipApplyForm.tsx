@@ -41,7 +41,8 @@ interface InternshipFormData {
   mobile: string;
   university: string;
   role: string;
-  message: string;
+  resumeBase64: string;
+  resumeName: string;
 }
 
 const initialForm: InternshipFormData = {
@@ -50,7 +51,8 @@ const initialForm: InternshipFormData = {
   mobile: "",
   university: "",
   role: "",
-  message: "",
+  resumeBase64: "",
+  resumeName: "",
 };
 
 export function InternshipApplyForm() {
@@ -70,7 +72,7 @@ export function InternshipApplyForm() {
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
       next.email = "Please enter a valid email.";
     if (!form.role) next.role = "Please select a role.";
-    if (!form.message.trim()) next.message = "Resume drive link is required.";
+    if (!form.resumeBase64) next.resumeBase64 = "Please upload your resume (PDF).";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -129,7 +131,9 @@ export function InternshipApplyForm() {
               mobile: form.mobile,
               university: form.university,
               role: form.role,
-              message: form.message,
+              message: "Attached in Email",
+              resume_base64: form.resumeBase64,
+              resume_name: form.resumeName,
               cashfree_order_id: order_id,
             };
 
@@ -179,6 +183,28 @@ export function InternshipApplyForm() {
   const update = (field: keyof InternshipFormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 3 * 1024 * 1024) {
+      setErrors((prev) => ({ ...prev, resumeBase64: "File size must be under 3MB" }));
+      return;
+    }
+    if (file.type !== "application/pdf") {
+      setErrors((prev) => ({ ...prev, resumeBase64: "Only PDF files are allowed" }));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = (reader.result as string).split(",")[1];
+      setForm((prev) => ({ ...prev, resumeBase64: base64String, resumeName: file.name }));
+      setErrors((prev) => ({ ...prev, resumeBase64: undefined }));
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -264,18 +290,19 @@ export function InternshipApplyForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="intern-message">
-              Resume Drive Link <span className="text-destructive">*</span>
+            <Label htmlFor="intern-resume">
+              Upload Resume (PDF) <span className="text-destructive">*</span>
             </Label>
-            <p className="text-xs text-muted-foreground font-medium">Note: Please ensure the Google Drive link access is set to "Anyone with the link can view".</p>
+            <p className="text-xs text-muted-foreground font-medium">Max file size: 3MB</p>
             <Input
-              id="intern-message"
-              placeholder="https://drive.google.com/..."
-              value={form.message}
-              onChange={(e) => update("message", e.target.value)}
-              aria-invalid={!!errors.message}
+              id="intern-resume"
+              type="file"
+              accept=".pdf"
+              onChange={handleFileChange}
+              aria-invalid={!!errors.resumeBase64}
+              className="cursor-pointer file:cursor-pointer"
             />
-            {errors.message && <p className="text-destructive text-xs">{errors.message}</p>}
+            {errors.resumeBase64 && <p className="text-destructive text-xs">{errors.resumeBase64}</p>}
           </div>
 
           <Button type="submit" size="lg" className="w-full" disabled={loading}>
@@ -314,7 +341,7 @@ export function InternshipApplyForm() {
                 <DialogTitle className="text-2xl">Application Received!</DialogTitle>
                 <DialogDescription className="text-base mt-2">
                   Thank you for applying. We will review your application and get back to you soon.
-                  A confirmation email with your invoice has been sent.
+                  A confirmation email has been sent to you.
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter className="w-full sm:justify-center mt-6 gap-2">

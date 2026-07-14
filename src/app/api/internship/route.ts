@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { JWT } from 'google-auth-library';
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, mobile, university, role, message, cashfree_order_id } = body;
+    const { name, email, mobile, university, role, message, cashfree_order_id, resume_base64, resume_name } = body;
 
     // Validate inputs
     if (!name || !email || !role || !message) {
@@ -71,53 +73,41 @@ export async function POST(req: Request) {
       }
     }
 
-    // 2. Save to Grist
-    const GRIST_API_KEY = process.env.GRIST_API_KEY;
-    const GRIST_DOC_ID = 'rf3G8gPaj7We';
-    const GRIST_TABLE_ID = process.env.GRIST_TABLE_ID || 'Table1';
+    // 2. Save to Google Sheets
+    const GOOGLE_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+    const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+    const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID;
 
     let applicationId = cashfree_order_id; // Using order ID as application reference
 
-    if (GRIST_API_KEY) {
+    if (GOOGLE_SERVICE_ACCOUNT_EMAIL && GOOGLE_PRIVATE_KEY && GOOGLE_SHEET_ID) {
       try {
-        const gristResponse = await fetch(`https://docs.getgrist.com/api/docs/${GRIST_DOC_ID}/tables/${GRIST_TABLE_ID}/records`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${GRIST_API_KEY}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            records: [
-              {
-                fields: {
-                  Name: name,
-                  Email: email,
-                  Mobile: mobile || '',
-                  University: university || '',
-                  Role: role,
-                  Message: message,
-                  PaymentId: verifiedPaymentId || "unverified",
-                  PaymentOrderId: cashfree_order_id,
-                  Date: new Date().toISOString()
-                }
-              }
-            ]
-          }),
+        const serviceAccountAuth = new JWT({
+          email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
+          key: GOOGLE_PRIVATE_KEY,
+          scopes: ['https://www.googleapis.com/auth/spreadsheets'],
         });
 
-        if (!gristResponse.ok) {
-          console.error('Failed to save to Grist:', await gristResponse.text());
-        } else {
-           const gristData = await gristResponse.json();
-           if (gristData.records && gristData.records.length > 0) {
-              applicationId = gristData.records[0].id.toString();
-           }
-        }
-      } catch (gristError) {
-        console.error('Error connecting to Grist:', gristError);
+        const doc = new GoogleSpreadsheet(GOOGLE_SHEET_ID, serviceAccountAuth);
+        await doc.loadInfo();
+        const sheet = doc.sheetsByIndex[0];
+        
+        await sheet.addRow({
+          Name: name,
+          Email: email,
+          Mobile: mobile || '',
+          University: university || '',
+          Role: role,
+          Message: 'Attached in Email',
+          PaymentId: verifiedPaymentId || "unverified",
+          PaymentOrderId: cashfree_order_id,
+          Date: new Date().toISOString()
+        });
+      } catch (sheetsError) {
+        console.error('Error connecting to Google Sheets:', sheetsError);
       }
     } else {
-      console.warn("GRIST_API_KEY is not configured. Skipping Grist integration.");
+      console.warn("Google Sheets credentials are not configured. Skipping Google Sheets integration.");
     }
 
     // 3. Email Configuration
@@ -146,6 +136,10 @@ export async function POST(req: Request) {
             to: [{ email: payload.to?.toString() || SMTP_FROM, name: payload.to?.toString() || 'Admin' }],
             subject: payload.subject,
             htmlContent: payload.html,
+            attachment: payload.attachments ? (payload.attachments as any[]).map(a => ({
+              content: a.content.toString('base64'),
+              name: a.filename
+            })) : undefined
           };
 
           const response = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -197,6 +191,13 @@ export async function POST(req: Request) {
       replyTo: `${name} <${email}>`,
       to: SMTP_FROM,
       subject: `New Intern Application: ${name} - ${role}`,
+      attachments: resume_base64 && resume_name ? [
+        {
+          filename: resume_name,
+          content: Buffer.from(resume_base64, 'base64'),
+          contentType: 'application/pdf'
+        }
+      ] : [],
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9fafb; padding: 40px 20px; border-radius: 12px;">
           <div style="background-color: #ffffff; padding: 32px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border-top: 4px solid #2563eb;">
