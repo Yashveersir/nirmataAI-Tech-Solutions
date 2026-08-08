@@ -59,12 +59,13 @@ const initialForm: InternshipFormData = {
 
 export function InternshipApplyForm() {
   const [form, setForm] = useState<InternshipFormData>(initialForm);
+  const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof InternshipFormData, string>>>({});
   
   // Dialog State
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogStatus, setDialogStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [dialogStatus, setDialogStatus] = useState<'idle' | 'initializing' | 'awaiting_payment' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState("");
 
   const validate = (): boolean => {
@@ -80,12 +81,17 @@ export function InternshipApplyForm() {
     return Object.keys(next).length === 0;
   };
 
+  const handleProceed = () => {
+    if (!validate()) return;
+    setStep(2);
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
     
     setLoading(true);
-    setDialogStatus('sending');
+    setDialogStatus('initializing');
     setDialogOpen(true);
     
     try {
@@ -94,7 +100,7 @@ export function InternshipApplyForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          amount: 49,
+          amount: 249,
           customer_details: {
             name: form.name,
             email: form.email,
@@ -118,6 +124,7 @@ export function InternshipApplyForm() {
         redirectTarget: "_modal",
       };
 
+      setDialogStatus('awaiting_payment');
       cashfree.checkout(checkoutOptions).then(async (result: any) => {
         if(result.error){
           setErrorMessage(result.error.message || "Payment Failed");
@@ -218,8 +225,9 @@ export function InternshipApplyForm() {
         aria-label="Internship Application Form"
         className="p-8 sm:p-12 text-left bg-transparent"
       >
-        <div className="space-y-6">
-          <div className="grid gap-6 sm:grid-cols-2">
+        {step === 1 ? (
+          <div className="space-y-6">
+            <div className="grid gap-6 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="intern-name">
                 Full Name <span className="text-destructive">*</span>
@@ -330,25 +338,67 @@ export function InternshipApplyForm() {
             {errors.resumeBase64 && <p className="text-destructive text-xs">{errors.resumeBase64}</p>}
           </div>
 
-          <Button type="submit" size="lg" className="w-full" disabled={loading}>
-            {loading ? (
-              <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
-            ) : (
-              <CreditCard className="mr-2 size-4" aria-hidden="true" />
-            )}
-            {loading ? (
-              "Processing..."
-            ) : (
-              <span>
-                Pay <del className="text-white/60 mx-1">₹99</del> ₹49 & Apply
-              </span>
-            )}
-          </Button>
-        </div>
+            <Button type="button" size="lg" className="w-full" onClick={handleProceed} disabled={loading}>
+              Proceed
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-6 text-center py-8">
+            <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 space-y-4">
+              <h3 className="text-xl font-semibold">Payment Details</h3>
+              <p className="text-muted-foreground">
+                Minimal fees for documentation and other requirement charges.
+              </p>
+              <div className="text-3xl font-bold text-primary">₹249</div>
+            </div>
+            
+            <div className="flex gap-4 pt-4">
+              <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1">
+                Back
+              </Button>
+              <Button type="submit" size="lg" className="flex-1" disabled={loading}>
+                {loading ? (
+                  <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <CreditCard className="mr-2 size-4" aria-hidden="true" />
+                )}
+                {loading ? "Processing..." : "Pay ₹249 & Apply"}
+              </Button>
+            </div>
+          </div>
+        )}
       </form>
 
       <Dialog open={dialogOpen} onOpenChange={handleCloseDialog}>
-        <DialogContent className="sm:max-w-md text-center flex flex-col items-center p-8" showCloseButton={dialogStatus !== 'sending'}>
+        <DialogContent className="sm:max-w-md text-center flex flex-col items-center p-8" showCloseButton={!['initializing', 'awaiting_payment', 'sending'].includes(dialogStatus)}>
+          {dialogStatus === 'initializing' && (
+            <>
+              <div className="flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary mb-4">
+                <Loader2 className="size-8 animate-spin" />
+              </div>
+              <DialogHeader className="items-center">
+                <DialogTitle className="text-2xl">Initializing Payment...</DialogTitle>
+                <DialogDescription className="text-base mt-2">
+                  Please wait while we securely connect to the payment gateway.
+                </DialogDescription>
+              </DialogHeader>
+            </>
+          )}
+
+          {dialogStatus === 'awaiting_payment' && (
+            <>
+              <div className="flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary mb-4">
+                <CreditCard className="size-8 animate-pulse" />
+              </div>
+              <DialogHeader className="items-center">
+                <DialogTitle className="text-2xl">Awaiting Payment</DialogTitle>
+                <DialogDescription className="text-base mt-2">
+                  Please complete the transaction in the secure Cashfree window.
+                </DialogDescription>
+              </DialogHeader>
+            </>
+          )}
+
           {dialogStatus === 'sending' && (
             <>
               <div className="flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary mb-4">
@@ -357,7 +407,7 @@ export function InternshipApplyForm() {
               <DialogHeader className="items-center">
                 <DialogTitle className="text-2xl">Submitting Application...</DialogTitle>
                 <DialogDescription className="text-base mt-2">
-                  Please wait while we process your request.
+                  Payment successful! Please wait while we process your application.
                 </DialogDescription>
               </DialogHeader>
             </>

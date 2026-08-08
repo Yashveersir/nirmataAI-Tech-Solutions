@@ -15,8 +15,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const appId = process.env.CASHFREE_APP_ID.replace(/"/g, '');
-    const secretKey = process.env.CASHFREE_SECRET_KEY.replace(/"/g, '');
+    const appId = process.env.CASHFREE_APP_ID.replace(/"/g, '').trim();
+    const secretKey = process.env.CASHFREE_SECRET_KEY.replace(/"/g, '').trim();
 
     const order_id = `order_internship_${Date.now()}`;
 
@@ -37,6 +37,7 @@ export async function POST(req: Request) {
 
     const response = await fetch('https://api.cashfree.com/pg/orders', {
       method: 'POST',
+      cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
         'x-api-version': '2023-08-01',
